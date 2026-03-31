@@ -1316,7 +1316,7 @@ function buildPaintingCard(p, idx) {
     addPanel.classList.remove('open');
   });
 
-  addConfirmBtn.addEventListener('click', () => {
+  addConfirmBtn.addEventListener('click', async () => {
     const usingUrl = radioUrl.checked;
     if (usingUrl) {
       const url = urlInput.value.trim();
@@ -1326,12 +1326,18 @@ function buildPaintingCard(p, idx) {
     } else {
       const file = fileInput.files && fileInput.files[0];
       if (!file) { alert('Please select an image file.'); return; }
-      const reader = new FileReader();
-      reader.onload = e => {
-        addImageToPainting(p.id, e.target.result);
+      addConfirmBtn.textContent = 'Uploading\u2026';
+      addConfirmBtn.disabled = true;
+      try {
+        const url = await uploadImageFile(file);
+        addImageToPainting(p.id, url);
         addPanel.classList.remove('open');
-      };
-      reader.readAsDataURL(file);
+      } catch(e) {
+        alert('Upload failed: ' + e.message);
+      } finally {
+        addConfirmBtn.textContent = 'Add';
+        addConfirmBtn.disabled = false;
+      }
     }
   });
 
@@ -1549,7 +1555,8 @@ document.querySelectorAll('input[name="aboutImgType"]').forEach(radio => {
   panelInputArea.appendChild(urlInp);
 })();
 
-document.getElementById('aboutAddImageConfirm').addEventListener('click', () => {
+document.getElementById('aboutAddImageConfirm').addEventListener('click', async () => {
+  const confirmBtn = document.getElementById('aboutAddImageConfirm');
   const isUrl = document.querySelector('input[name="aboutImgType"]:checked').value === 'url';
   if (isUrl) {
     const url = document.getElementById('aboutUrlInput').value.trim();
@@ -1561,14 +1568,20 @@ document.getElementById('aboutAddImageConfirm').addEventListener('click', () => 
   } else {
     const file = document.getElementById('aboutFileInput').files[0];
     if (!file) { alert('Please select an image file.'); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
+    confirmBtn.textContent = 'Uploading\u2026';
+    confirmBtn.disabled = true;
+    try {
+      const url = await uploadImageFile(file);
       if (!state.about.images) state.about.images = [];
-      state.about.images.push(e.target.result);
+      state.about.images.push(url);
       document.getElementById('aboutAddPanel').classList.remove('open');
       renderAboutImages();
-    };
-    reader.readAsDataURL(file);
+    } catch(e) {
+      alert('Upload failed: ' + e.message);
+    } finally {
+      confirmBtn.textContent = 'Add';
+      confirmBtn.disabled = false;
+    }
   }
 });
 
@@ -1610,6 +1623,44 @@ document.getElementById('updatePwBtn').addEventListener('click', async () => {
   status.textContent = 'Password updated successfully.';
   setTimeout(() => { status.textContent = ''; }, 3000);
 });
+
+// ─── IMAGE UPLOAD TO GITHUB ───────────────────────────────────────────────────
+async function compressImage(file, maxPx, quality) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxPx || h > maxPx) {
+          if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
+          else { w = Math.round(w * maxPx / h); h = maxPx; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadImageFile(file) {
+  if (!state.githubToken) throw new Error('No GitHub token. Add it in Settings first.');
+  const dataUrl = await compressImage(file, 1600, 0.88);
+  const base64 = dataUrl.split(',')[1];
+  const filename = 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2,5) + '.jpg';
+  const apiUrl = 'https://api.github.com/repos/mindgame77/mooonarch/contents/images/' + filename;
+  const res = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: { 'Authorization': 'token ' + state.githubToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'upload image', content: base64 })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Upload failed'); }
+  return 'https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/' + filename;
+}
 
 // ─── SAVE ALL ─────────────────────────────────────────────────────────────────
 async function saveAll() {
