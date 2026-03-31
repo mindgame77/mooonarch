@@ -42,5 +42,27 @@ exports.handler = async (event) => {
   });
 
   if (!res.ok) { const e = await res.json(); return { statusCode: 500, body: JSON.stringify({ error: e.message }) }; }
+
+  // Send email notification via Resend
+  const resendKey = process.env.RESEND_API_KEY;
+  if (resendKey) {
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + resendKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: 'Mooonarch <onboarding@resend.dev>',
+          to: 'malytskyyol@gmail.com',
+          subject: 'New inquiry: ' + (body.painting || 'a painting'),
+          html: `<p><strong>Painting:</strong> ${body.painting || '—'}</p>
+<p><strong>Name:</strong> ${body.name || '—'}</p>
+<p><strong>Email:</strong> ${body.email || '—'}</p>
+<p><strong>Phone:</strong> ${body.phone || '—'}</p>
+<p><strong>Country:</strong> ${body.country || '—'}</p>`
+        })
+      });
+    } catch(e) {}
+  }
+
   return { statusCode: 200, body: JSON.stringify({ success: true }) };
 };
