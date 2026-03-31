@@ -9,10 +9,28 @@ exports.handler = async (event) => {
 
   const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
   let sha = null;
+  let existingData = {};
   try {
     const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, 'User-Agent': 'mooonarch' } });
-    if (getRes.ok) { const f = await getRes.json(); sha = f.sha; }
+    if (getRes.ok) {
+      const f = await getRes.json();
+      sha = f.sha;
+      existingData = JSON.parse(Buffer.from(f.content, 'base64').toString('utf8'));
+    }
   } catch(e) {}
+
+  // Merge leads: keep all server leads, only update statuses from admin
+  const serverLeads = existingData.leads || [];
+  const adminLeads = data.leads || [];
+  const merged = serverLeads.map(sl => {
+    const al = adminLeads.find(x => String(x.id) === String(sl.id));
+    return al ? { ...sl, status: al.status } : sl;
+  });
+  // Add any leads in admin that aren't on server yet (edge case)
+  adminLeads.forEach(al => {
+    if (!merged.find(x => String(x.id) === String(al.id))) merged.push(al);
+  });
+  data.leads = merged;
 
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
   const body = { message: 'update site data', content };

@@ -1212,26 +1212,17 @@ document.getElementById('contactForm').addEventListener('submit', async function
   btn.disabled = true;
   btn.textContent = 'Sending\u2026';
 
-  const settings = window._emailSettings || {};
-  const serviceId  = settings.serviceId  || '';
-  const templateId = settings.templateId || '';
-
-  const templateParams = {
-    painting_name: currentPaintingName,
-    full_name:     fullName,
-    email:         email,
-    phone:         phone || 'Not provided',
-    country:       country,
-  };
-
   try {
-    if (serviceId && templateId) {
-      await emailjs.send(serviceId, templateId, templateParams);
-    }
+    const res = await fetch('/.netlify/functions/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ painting: currentPaintingName, name: fullName, email, phone: phone || '', country })
+    });
+    if (!res.ok) throw new Error('Save failed');
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('thankYou').classList.add('visible');
   } catch (err) {
-    console.error('EmailJS error:', err);
+    console.error('Form error:', err);
     alert('Something went wrong. Please try again or contact us directly.');
     btn.disabled = false;
     btn.textContent = 'Send Interest';

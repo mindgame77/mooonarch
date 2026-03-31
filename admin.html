@@ -726,6 +726,103 @@
     .tab-content { padding: 28px 16px 40px; }
     .tabs-bar { padding: 0 16px; gap: 2px; }
     .tab-btn { padding: 7px 14px; font-size: 13px; }
+    .crm-stats { grid-template-columns: 1fr 1fr; }
+    .crm-table-wrap { overflow-x: auto; }
+  }
+
+  /* ── CRM / REQUESTS TAB ── */
+  .crm-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .crm-stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    border: 1px solid var(--light-gray);
+  }
+  .crm-stat-value {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .crm-stat-new .crm-stat-value { color: var(--accent); }
+  .crm-stat-label {
+    font-size: 12px;
+    color: var(--mid-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .crm-chart-wrap {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid var(--light-gray);
+  }
+  .crm-chart-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mid-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  #leadsChart { display: block; width: 100%; }
+  .crm-table-wrap {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--light-gray);
+  }
+  .crm-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  .crm-table th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mid-gray);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+    background: var(--off-white);
+  }
+  .crm-table td {
+    font-size: 13px;
+    padding: 13px 16px;
+    border-bottom: 1px solid #f2f2f7;
+    color: var(--dark);
+    vertical-align: middle;
+  }
+  .crm-table tr:last-child td { border-bottom: none; }
+  .crm-table a { color: var(--accent); text-decoration: none; }
+  .crm-table a:hover { text-decoration: underline; }
+  .status-select {
+    padding: 5px 10px;
+    border: 1.5px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: var(--font);
+    color: var(--dark);
+    background: white;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .status-select:focus { border-color: var(--accent); }
+  .status-select[data-status="new"] { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .status-select[data-status="sold"] { border-color: #34c759; color: #34c759; font-weight: 600; }
+  .crm-empty {
+    text-align: center;
+    color: var(--mid-gray);
+    padding: 60px 20px;
+    font-size: 14px;
   }
 </style>
 </head>
@@ -757,6 +854,7 @@
   <div class="tabs-bar">
     <button class="tab-btn active" data-tab="paintings">Paintings</button>
     <button class="tab-btn" data-tab="about">About Page</button>
+    <button class="tab-btn" data-tab="requests">Requests</button>
     <button class="tab-btn" data-tab="settings">Settings</button>
   </div>
 
@@ -805,6 +903,45 @@
           <button class="panel-cancel-btn" id="aboutAddImageCancel">Cancel</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- REQUESTS TAB -->
+  <div class="tab-content" id="tab-requests">
+    <div class="page-title">Requests</div>
+    <div class="crm-stats">
+      <div class="crm-stat-card">
+        <div class="crm-stat-value" id="statTotal">0</div>
+        <div class="crm-stat-label">Total</div>
+      </div>
+      <div class="crm-stat-card">
+        <div class="crm-stat-value" id="statMonth">0</div>
+        <div class="crm-stat-label">This Month</div>
+      </div>
+      <div class="crm-stat-card crm-stat-new">
+        <div class="crm-stat-value" id="statNew">0</div>
+        <div class="crm-stat-label">New</div>
+      </div>
+    </div>
+    <div class="crm-chart-wrap">
+      <div class="crm-chart-title">Requests per month</div>
+      <canvas id="leadsChart" height="140"></canvas>
+    </div>
+    <div class="crm-table-wrap">
+      <table class="crm-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Painting</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Country</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="leadsTableBody"></tbody>
+      </table>
     </div>
   </div>
 
@@ -990,7 +1127,8 @@ let state = {
   paintings: [],
   about: {},
   settings: {},
-  instagramPosts: []
+  instagramPosts: [],
+  leads: []
 };
 
 
@@ -1012,6 +1150,14 @@ async function initAdmin() {
   const savedIg = await DB.get('instagramPosts');
   state.instagramPosts = savedIg ? savedIg : [];
 
+  // Leads always come from server (not IndexedDB)
+  try {
+    const res = await fetch('/data.json?v=' + Date.now());
+    if (res.ok) {
+      const d = await res.json();
+      state.leads = d.leads || [];
+    }
+  } catch(e) {}
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
@@ -1022,6 +1168,7 @@ function login(enteredPw) {
     renderPaintingsTab();
     renderAboutTab();
     renderSettingsTab();
+    renderRequestsTab();
   } else {
     const inp = document.getElementById('pwInput');
     inp.style.animation = 'shake 0.4s ease';
@@ -1708,7 +1855,8 @@ async function saveAll() {
     await saveToGitHub({
       paintings: state.paintings,
       about: state.about,
-      instagramPosts: state.instagramPosts
+      instagramPosts: state.instagramPosts,
+      leads: state.leads
     });
     statusEl.style.color = '#34c759';
     statusEl.textContent = 'Published \u2713 everyone can see your changes';
@@ -1740,6 +1888,125 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => { toast.classList.remove('show'); }, 2500);
+}
+
+// ─── REQUESTS TAB ─────────────────────────────────────────────────────────────
+function renderRequestsTab() {
+  const leads = state.leads || [];
+  const now = new Date();
+
+  const thisMonth = leads.filter(l => {
+    const d = new Date(l.date);
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  const newCount = leads.filter(l => l.status === 'new').length;
+
+  document.getElementById('statTotal').textContent = leads.length;
+  document.getElementById('statMonth').textContent = thisMonth;
+  document.getElementById('statNew').textContent = newCount;
+
+  drawLeadsChart(leads);
+  renderLeadsTable(leads);
+}
+
+function drawLeadsChart(leads) {
+  const canvas = document.getElementById('leadsChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const now = new Date();
+
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ label: d.toLocaleString('default', { month: 'short' }), year: d.getFullYear(), month: d.getMonth(), count: 0 });
+  }
+  leads.forEach(l => {
+    const d = new Date(l.date);
+    const m = months.find(x => x.month === d.getMonth() && x.year === d.getFullYear());
+    if (m) m.count++;
+  });
+
+  const W = canvas.parentElement.clientWidth - 48;
+  const H = 140;
+  canvas.width = W;
+  canvas.height = H;
+
+  const maxCount = Math.max(...months.map(m => m.count), 1);
+  const pad = { top: 24, right: 10, bottom: 36, left: 10 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+  const slot = chartW / months.length;
+  const barW = Math.min(slot * 0.5, 48);
+
+  ctx.clearRect(0, 0, W, H);
+
+  months.forEach((m, i) => {
+    const cx = pad.left + i * slot + slot / 2;
+    const barH = Math.max((m.count / maxCount) * chartH, m.count > 0 ? 4 : 2);
+    const x = cx - barW / 2;
+    const y = pad.top + chartH - barH;
+
+    ctx.fillStyle = m.count > 0 ? '#c9aa71' : '#e8e8ed';
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, barW, barH, 4);
+    else ctx.rect(x, y, barW, barH);
+    ctx.fill();
+
+    if (m.count > 0) {
+      ctx.fillStyle = '#1d1d1f';
+      ctx.font = 'bold 12px -apple-system,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(m.count, cx, y - 6);
+    }
+
+    ctx.fillStyle = '#86868b';
+    ctx.font = '11px -apple-system,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(m.label, cx, H - 8);
+  });
+}
+
+function renderLeadsTable(leads) {
+  const tbody = document.getElementById('leadsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  if (!leads.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="crm-empty">No requests yet — they will appear here when visitors fill out the form.</td></tr>';
+    return;
+  }
+
+  [...leads].sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(lead => {
+    const tr = document.createElement('tr');
+    const dateStr = new Date(lead.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    tr.innerHTML = `
+      <td style="white-space:nowrap">${dateStr}</td>
+      <td>${lead.painting || '—'}</td>
+      <td>${lead.name || '—'}</td>
+      <td><a href="mailto:${lead.email}">${lead.email || '—'}</a></td>
+      <td style="white-space:nowrap">${lead.phone || '—'}</td>
+      <td>${lead.country || '—'}</td>
+      <td>
+        <select class="status-select" data-lead-id="${lead.id}" data-status="${lead.status || 'new'}">
+          <option value="new" ${(lead.status||'new')==='new'?'selected':''}>New</option>
+          <option value="contacted" ${lead.status==='contacted'?'selected':''}>Contacted</option>
+          <option value="interested" ${lead.status==='interested'?'selected':''}>Interested</option>
+          <option value="sold" ${lead.status==='sold'?'selected':''}>Sold</option>
+          <option value="passed" ${lead.status==='passed'?'selected':''}>Passed</option>
+        </select>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('.status-select').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const lead = state.leads.find(l => String(l.id) === sel.dataset.leadId);
+      if (lead) {
+        lead.status = sel.value;
+        sel.dataset.status = sel.value;
+      }
+    });
+  });
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
