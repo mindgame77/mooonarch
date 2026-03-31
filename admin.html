@@ -1166,7 +1166,8 @@ async function initAdmin() {
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
-function login(enteredPw) {
+async function login(enteredPw) {
+  await _initPromise; // wait for data to load before rendering
   if (enteredPw === window._adminPw) {
     document.getElementById('pwOverlay').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
@@ -2023,7 +2024,7 @@ function renderLeadsTable(leads) {
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
-initAdmin().catch(console.error);
+const _initPromise = initAdmin().catch(console.error);
 </script>
 </body>
 </html>
