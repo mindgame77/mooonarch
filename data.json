@@ -1,1 +1,68 @@
-{}
+{
+  "paintings": [
+    {
+      "id": 1,
+      "name": "Amber Quiet",
+      "price": "$2,400",
+      "medium": "Oil on canvas",
+      "size": "60 × 80 cm",
+      "music": "",
+      "edition": "10,000",
+      "number": "37",
+      "sold": false,
+      "description": "Warm amber light diffuses across a still landscape, capturing that fleeting moment between afternoon and dusk when the world seems to hold its breath.",
+      "images": [
+        "https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=900&q=85",
+        "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=85",
+        "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=85"
+      ],
+      "video": ""
+    },
+    {
+      "id": 2,
+      "name": "Infinite Blue",
+      "price": "$3,100",
+      "medium": "Acrylic on linen",
+      "size": "90 × 70 cm",
+      "music": "",
+      "edition": "10,000",
+      "number": "37",
+      "sold": false,
+      "description": "Layers of cobalt and cerulean build a depth that feels oceanic. A meditation on stillness, drawn from a single morning at the water's edge.",
+      "images": [
+        "https://images.unsplash.com/photo-1549490349-8643362247b5?w=900&q=85",
+        "https://images.unsplash.com/photo-1568010434570-74e9ba7126bc?w=900&q=85"
+      ],
+      "video": ""
+    },
+    {
+      "id": 3,
+      "name": "First Snow",
+      "price": "$1,800",
+      "medium": "Oil on panel",
+      "size": "50 × 50 cm",
+      "music": "",
+      "edition": "10,000",
+      "number": "37",
+      "sold": false,
+      "description": "The hush that falls with the first snow of the season — white on white, shadow on shadow. A quiet study in restraint and presence.",
+      "images": [
+        "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=900&q=85",
+        "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=85"
+      ],
+      "video": ""
+    }
+  ],
+  "about": {
+    "heading": "The Artist",
+    "subheading": "Painting the quiet moments the world rushes past.",
+    "bio": "Each painting in the Mooonarch collection begins with a moment — a quality of light through a window, the stillness of water before wind, the hush of a field in late autumn.\n\nThe work is slow by design. Layers are built and removed. Paint is added and taken away. What remains is what insists on staying.\n\nMooonarch paintings are held in private collections across Europe and North America. Each work is unique and sold with a certificate of authenticity.",
+    "images": [
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+      "https://images.unsplash.com/photo-1578301978693-4561d5c5af9e?w=800&q=80",
+      "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80",
+      "https://images.unsplash.com/photo-1579541592935-3bba6dc1f671?w=800&q=80"
+    ]
+  },
+  "instagramPosts": []
+}
