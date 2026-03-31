@@ -739,7 +739,8 @@
 <body>
 
 <!-- Hidden form for Netlify Forms detection -->
-<form name="contact" netlify netlify-honeypot="bot-field" hidden>
+<form name="contact" method="post" action="/" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="contact">
   <input name="painting_name"><input name="fullName"><input name="email"><input name="phone"><input name="country">
 </form>
 
