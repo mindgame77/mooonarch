@@ -1277,9 +1277,9 @@ function renderInstagram(posts) {
 async function init() {
   renderGallery(DEFAULT_PAINTINGS); // immediate render with defaults
 
-  // Try to load from Netlify Blobs (visible to everyone)
+  // Try to load from published data.json (visible to everyone)
   try {
-    const res = await fetch('/.netlify/functions/get-data');
+    const res = await fetch('/data.json?v=' + Date.now());
     if (res.ok) {
       const siteData = await res.json();
       if (siteData && siteData.paintings && siteData.paintings.length) {

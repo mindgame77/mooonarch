@@ -1,31 +1,29 @@
-function getCtx() {
-  const raw = process.env.NETLIFY_BLOBS_CONTEXT;
-  if (!raw) return null;
-  try { return JSON.parse(Buffer.from(raw, 'base64').toString()); } catch(e) { return null; }
-}
-
-async function setBlob(storeName, key, value) {
-  const ctx = getCtx();
-  if (!ctx) throw new Error('Netlify Blobs not available');
-  const url = `${ctx.edgeURL}/${ctx.siteID}/${storeName}/${encodeURIComponent(key)}`;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { authorization: `Bearer ${ctx.token}`, 'content-type': 'text/plain' },
-    body: value
-  });
-  if (!res.ok) throw new Error('Store failed: ' + res.status);
-}
-
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method not allowed' };
 
-  let body;
-  try { body = JSON.parse(event.body); } catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return { statusCode: 500, body: JSON.stringify({ error: 'GITHUB_TOKEN not set in Netlify environment variables' }) };
 
+  let data;
+  try { data = JSON.parse(event.body); } catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
+
+  const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
+  let sha = null;
   try {
-    await setBlob('site-data', 'data', JSON.stringify(body));
-    return { statusCode: 200, body: JSON.stringify({ success: true }) };
-  } catch(e) {
-    return { statusCode: 500, body: JSON.stringify({ error: e.message }) };
-  }
+    const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, 'User-Agent': 'mooonarch' } });
+    if (getRes.ok) { const f = await getRes.json(); sha = f.sha; }
+  } catch(e) {}
+
+  const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
+  const body = { message: 'update site data', content };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', 'User-Agent': 'mooonarch' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) { const e = await res.json(); return { statusCode: 500, body: JSON.stringify({ error: e.message }) }; }
+  return { statusCode: 200, body: JSON.stringify({ success: true }) };
 };

@@ -526,9 +526,9 @@ function closeLightbox() {
 async function init() {
   renderAbout(DEFAULT_ABOUT); // immediate render with defaults
 
-  // Try Netlify Blobs first
+  // Try published data.json first
   try {
-    const res = await fetch('/.netlify/functions/get-data');
+    const res = await fetch('/data.json?v=' + Date.now());
     if (res.ok) {
       const siteData = await res.json();
       if (siteData && siteData.about) { renderAbout(siteData.about); return; }
