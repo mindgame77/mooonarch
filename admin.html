@@ -840,6 +840,20 @@
     <div class="section-divider"></div>
 
     <div class="settings-section">
+      <div class="settings-title">GitHub Token</div>
+      <div class="settings-desc">Required to publish data so everyone can see your paintings, about page, and Instagram posts. <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=mooonarch" target="_blank" style="color:var(--accent);">Generate a token here</a> — select <strong>public_repo</strong> scope only.</div>
+      <div class="settings-card">
+        <div class="field-row-single field-group">
+          <label>Personal Access Token</label>
+          <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+        <div id="githubSaveStatus" style="font-size:13px; margin-top:8px; min-height:18px;"></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="settings-section">
       <div class="settings-title">Instagram Feed</div>
       <div class="settings-desc">Paste Instagram post or reel URLs — one per line. These will appear as a horizontal carousel on the main page.</div>
       <div class="settings-card">
@@ -1009,6 +1023,9 @@ async function initAdmin() {
 
   const savedIg = await DB.get('instagramPosts');
   state.instagramPosts = savedIg ? savedIg : [];
+
+  const savedToken = await DB.get('githubToken');
+  state.githubToken = savedToken || '';
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
@@ -1565,6 +1582,7 @@ function renderSettingsTab() {
   document.getElementById('settingsTemplateId').value = state.settings.templateId || '';
   document.getElementById('settingsPublicKey').value = state.settings.publicKey || '';
   document.getElementById('instagramUrlsInput').value = (state.instagramPosts || []).join('\n');
+  document.getElementById('githubTokenInput').value = state.githubToken || '';
 }
 
 // Password update
@@ -1637,17 +1655,64 @@ async function saveAll() {
   const igRaw = document.getElementById('instagramUrlsInput').value;
   state.instagramPosts = igRaw.split('\n').map(u => u.trim()).filter(u => u.length > 0);
 
+  // 3c. Collect github token
+  state.githubToken = document.getElementById('githubTokenInput').value.trim();
+
   // 4. Save to IndexedDB
   await DB.set('paintings', state.paintings);
   await DB.set('about', state.about);
   await DB.set('settings', state.settings);
   await DB.set('instagramPosts', state.instagramPosts);
+  await DB.set('githubToken', state.githubToken);
 
   // 5. Re-render paintings tab titles
   renderPaintingsTab();
 
-  // 6. Show toast
+  // 6. Push to GitHub so everyone sees the data
+  if (state.githubToken) {
+    const statusEl = document.getElementById('githubSaveStatus');
+    statusEl.style.color = 'var(--mid-gray)';
+    statusEl.textContent = 'Publishing to website\u2026';
+    try {
+      await saveToGitHub({
+        paintings: state.paintings,
+        about: state.about,
+        instagramPosts: state.instagramPosts
+      }, state.githubToken);
+      statusEl.style.color = '#34c759';
+      statusEl.textContent = 'Published \u2713 everyone can see your changes';
+      setTimeout(() => { statusEl.textContent = ''; }, 5000);
+    } catch(e) {
+      statusEl.style.color = '#ff3b30';
+      statusEl.textContent = 'GitHub error: ' + e.message;
+    }
+  }
+
+  // 7. Show toast
   showToast('Changes saved \u2713');
+}
+
+async function saveToGitHub(data, token) {
+  const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
+  let sha = null;
+  try {
+    const getRes = await fetch(url, { headers: { 'Authorization': 'token ' + token } });
+    if (getRes.ok) { const f = await getRes.json(); sha = f.sha; }
+  } catch(e) {}
+
+  const json = JSON.stringify(data, null, 2);
+  // base64 encode with unicode support
+  const content = btoa(unescape(encodeURIComponent(json)));
+
+  const body = { message: 'update site data', content };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.message || 'Upload failed'); }
 }
 
 document.getElementById('saveAllBtn').addEventListener('click', saveAll);

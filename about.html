@@ -526,8 +526,18 @@ function closeLightbox() {
 async function init() {
   renderAbout(DEFAULT_ABOUT); // immediate render with defaults
 
+  // Try published data.json first
+  try {
+    const res = await fetch('/data.json?v=' + Date.now());
+    if (res.ok) {
+      const siteData = await res.json();
+      if (siteData && siteData.about) { renderAbout(siteData.about); return; }
+    }
+  } catch(e) {}
+
+  // Fallback: local IndexedDB
   const saved = await DB.get('about');
-  if (saved) renderAbout(saved); // re-render if saved data exists
+  if (saved) renderAbout(saved);
 }
 
 init();

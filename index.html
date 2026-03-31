@@ -1278,8 +1278,27 @@ function renderInstagram(posts) {
 async function init() {
   renderGallery(DEFAULT_PAINTINGS); // immediate render with defaults
 
+  // Try to load from published data.json first (visible to everyone)
+  try {
+    const res = await fetch('/data.json?v=' + Date.now());
+    if (res.ok) {
+      const siteData = await res.json();
+      if (siteData && siteData.paintings && siteData.paintings.length) {
+        renderGallery(siteData.paintings);
+        renderInstagram(siteData.instagramPosts || []);
+        const settings = await DB.get('settings') || {};
+        if (settings.publicKey) {
+          try { emailjs.init({ publicKey: settings.publicKey }); } catch(e) {}
+        }
+        window._emailSettings = settings;
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // Fallback: local IndexedDB
   const saved = await DB.get('paintings');
-  if (saved && saved.length) renderGallery(saved); // re-render if saved data exists
+  if (saved && saved.length) renderGallery(saved);
 
   const settings = await DB.get('settings') || {};
   if (settings.publicKey) {
