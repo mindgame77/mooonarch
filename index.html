@@ -20,6 +20,8 @@
 
   html { scroll-behavior: smooth; }
 
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   body {
     font-family: var(--font);
     background: var(--white);
@@ -1275,8 +1277,13 @@ function renderInstagram(posts) {
   });
 }
 
+function showGalleryLoader() {
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = '<div id="galleryLoader" style="width:100%;padding:80px 0;display:flex;justify-content:center;align-items:center;"><div style="width:36px;height:36px;border:3px solid #e8e8ed;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.7s linear infinite"></div></div>';
+}
+
 async function init() {
-  renderGallery(DEFAULT_PAINTINGS); // immediate render with defaults
+  showGalleryLoader();
 
   // Try to load from published data.json (visible to everyone)
   try {
@@ -1298,7 +1305,11 @@ async function init() {
 
   // Fallback: local IndexedDB
   const saved = await DB.get('paintings');
-  if (saved && saved.length) renderGallery(saved);
+  if (saved && saved.length) {
+    renderGallery(saved);
+  } else {
+    renderGallery(DEFAULT_PAINTINGS);
+  }
 
   const settings = await DB.get('settings') || {};
   if (settings.publicKey) {
