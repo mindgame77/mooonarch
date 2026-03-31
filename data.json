@@ -27,10 +27,8 @@
       "number": "37",
       "sold": false,
       "description": "Layers of cobalt and cerulean build a depth that feels oceanic. A meditation on stillness, drawn from a single morning at the water's edge.",
-      "images": [
-        "https://imgur.com/amwCV6K"
-      ],
-      "video": ""
+      "images": [],
+      "video": "https://imgur.com/amwCV6K"
     },
     {
       "id": 3,
@@ -43,10 +41,7 @@
       "number": "37",
       "sold": false,
       "description": "The hush that falls with the first snow of the season — white on white, shadow on shadow. A quiet study in restraint and presence.",
-      "images": [
-        "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=900&q=85",
-        "https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=85"
-      ],
+      "images": [],
       "video": ""
     }
   ],
