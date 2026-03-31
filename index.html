@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artefacts — Mooonarch</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f5f5f7;
+    --light-gray: #e8e8ed;
+    --mid-gray: #86868b;
+    --dark: #1d1d1f;
+    --accent: #c9aa71;
+    --font: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--white);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    color: var(--mid-gray);
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--dark); }
+
+  .nav-tagline {
+    font-size: 13px;
+    color: var(--mid-gray);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 140px 24px 80px;
+    text-align: center;
+    background: var(--white);
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+
+  .hero p {
+    font-size: clamp(17px, 2.5vw, 21px);
+    color: var(--mid-gray);
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin: 48px auto 0;
+    border-radius: 2px;
+  }
+
+  /* GALLERY */
+  .gallery {
+    padding: 80px 40px 120px;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 56px 36px;
+  }
+
+  /* PAINTING CARD */
+  .painting {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .painting-media {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.06);
+    background: var(--off-white);
+    aspect-ratio: 4/5;
+    cursor: pointer;
+  }
+
+  .painting-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .painting-media:hover img { transform: scale(1.03); }
+
+  /* Thumbnail strip */
+  .thumb-strip {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+    background: var(--light-gray);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumb.active { border-color: var(--dark); }
+  .thumb:not(.active) { opacity: 0.5; }
+  .thumb:hover { opacity: 0.85; }
+
+  /* Photo count badge */
+  .photo-count {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0,0,0,0.45);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    letter-spacing: 0.03em;
+  }
+
+  /* SOLD OVERLAY */
+  .sold-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 8, 8, 0.72);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+    border-radius: 12px;
+  }
+
+  .sold-overlay-line {
+    width: 32px;
+    height: 1px;
+    background: rgba(201, 170, 113, 0.85);
+  }
+
+  .sold-overlay-text {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  /* PAINTING INFO */
+  .painting-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 18px;
+  }
+
+  .painting-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .painting-name {
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+
+  .painting-description {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #515154;
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+
+  .painting-price {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+
+  /* Details */
+  .painting-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 0;
+    border-top: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: 20px;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .detail-label { color: var(--mid-gray); }
+  .detail-value { color: var(--dark); font-weight: 500; }
+
+  /* LOVE BUTTON */
+  .love-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 980px;
+    padding: 11px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+
+  .love-btn:hover {
+    background: #3a3a3c;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
+
+  .love-btn:active { transform: translateY(0); }
+  .love-btn .heart { font-size: 17px; line-height: 1; }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    background: var(--off-white);
+    border: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--mid-gray);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    font-family: var(--font);
+  }
+
+  .modal-close:hover { background: var(--light-gray); color: var(--dark); }
+
+  .modal-painting-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .modal h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .modal-subtitle {
+    font-size: 14px;
+    color: var(--mid-gray);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 7px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--light-gray);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: var(--font);
+    color: var(--dark);
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--dark);
+    box-shadow: 0 0 0 3px rgba(29,29,31,0.08);
+  }
+
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2386868b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 980px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.15s;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+
+  .submit-btn:hover { background: #3a3a3c; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { background: var(--mid-gray); cursor: default; }
+
+  /* THANK YOU */
+  .thank-you {
+    text-align: center;
+    padding: 16px 0 8px;
+    display: none;
+  }
+
+  .thank-you.visible { display: block; }
+
+  .ty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .thank-you h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .thank-you p {
+    font-size: 15px;
+    color: var(--mid-gray);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 60px 24px;
+    border-top: 1px solid var(--light-gray);
+    color: var(--mid-gray);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  footer strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
+  }
+
+  .lightbox.open { opacity: 1; visibility: visible; }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 6px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+
+  .lightbox-nav:hover { background: rgba(255,255,255,0.22); }
+  .lightbox-nav.prev { left: 20px; }
+  .lightbox-nav.next { right: 20px; }
+  .lightbox-nav[disabled] { opacity: 0.25; pointer-events: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 680px) {
+    .gallery { grid-template-columns: 1fr; gap: 60px 0; padding: 70px 24px 100px; }
+    .hero { padding: 110px 24px 60px; }
+    .modal { padding: 36px 28px; }
+    .painting-name { font-size: 22px; }
+  }
+
+  @media (max-width: 480px) {
+    nav { padding: 0 16px; }
+    .gallery { padding: 70px 16px 100px; }
+    .modal { padding: 32px 22px; border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Mooonarch</a>
+  <div class="nav-right">
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Mooonarch</h1>
+  <p>I don't care if people like my art. I just want you to find the one Mooonarch that changes your life.</p>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- GALLERY -->
+<main class="gallery" id="gallery"></main>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Mooonarch</strong>
+  Original paintings available for private acquisition.<br>
+  Each work is unique and comes with a certificate of authenticity.<br><br>
+  <a href="admin.html" style="color: var(--light-gray); font-size: 11px; text-decoration: none;">Admin</a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modalClose" aria-label="Close">&#x2715;</button>
+    <div id="modalForm">
+      <h2>I Love This</h2>
+      <p class="modal-subtitle">Share your details and we'll reach out about acquiring this work.</p>
+      <form id="contactForm" novalidate>
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select id="country" name="country" required>
+            <option value="" disabled selected>Select your country</option>
+            <option>United States</option><option>United Kingdom</option>
+            <option>Canada</option><option>Australia</option>
+            <option>France</option><option>Germany</option>
+            <option>Italy</option><option>Spain</option>
+            <option>Netherlands</option><option>Switzerland</option>
+            <option>Japan</option><option>China</option>
+            <option>South Korea</option><option>Singapore</option>
+            <option>United Arab Emirates</option><option>Ukraine</option>
+            <option>Poland</option><option>Sweden</option>
+            <option>Norway</option><option>Denmark</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Send Interest</button>
+      </form>
+    </div>
+    <div class="thank-you" id="thankYou">
+      <div class="ty-icon">&#x2665;&#xFE0F;</div>
+      <h3>Thank you!</h3>
+      <p>We've received your interest and will be in touch shortly to discuss this piece with you.</p>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-nav prev" id="lbPrev">&#8592;</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav next" id="lbNext">&#8594;</button>
+  <button class="lightbox-close" id="lightboxClose">&#x2715;</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// ─── SHARED DB MODULE ─────────────────────────────────────────────────────────
+const DB = {
+  _db: null,
+  async init() {
+    if (this._db) return;
+    return new Promise((res, rej) => {
+      const req = indexedDB.open('mooonarchDB', 1);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('store')) db.createObjectStore('store');
+      };
+      req.onsuccess = e => { this._db = e.target.result; res(); };
+      req.onerror = rej;
+    });
+  },
+  async get(key) {
+    await this.init();
+    return new Promise((res, rej) => {
+      const tx = this._db.transaction('store', 'readonly');
+      const req = tx.objectStore('store').get(key);
+      req.onsuccess = () => res(req.result ?? null);
+      req.onerror = rej;
+    });
+  },
+  async set(key, value) {
+    await this.init();
+    return new Promise((res, rej) => {
+      const tx = this._db.transaction('store', 'readwrite');
+      const req = tx.objectStore('store').put(value, key);
+      req.onsuccess = () => res();
+      req.onerror = rej;
+    });
+  }
+};
+
+// ─── DEFAULT PAINTINGS ────────────────────────────────────────────────────────
+const DEFAULT_PAINTINGS = [
+  {
+    id: 1,
+    name: 'Amber Quiet',
+    price: '$2,400',
+    medium: 'Oil on canvas',
+    size: '60 \u00d7 80 cm',
+    music: '',
+    edition: '10,000',
+    number: '37',
+    sold: false,
+    description: 'Warm amber light diffuses across a still landscape, capturing that fleeting moment between afternoon and dusk when the world seems to hold its breath.',
+    images: [
+      'https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=900&q=85',
+      'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=85',
+      'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=85',
+    ]
+  },
+  {
+    id: 2,
+    name: 'Infinite Blue',
+    price: '$3,100',
+    medium: 'Acrylic on linen',
+    size: '90 \u00d7 70 cm',
+    music: '',
+    edition: '10,000',
+    number: '37',
+    sold: false,
+    description: "Layers of cobalt and cerulean build a depth that feels oceanic. A meditation on stillness, drawn from a single morning at the water's edge.",
+    images: [
+      'https://images.unsplash.com/photo-1549490349-8643362247b5?w=900&q=85',
+      'https://images.unsplash.com/photo-1568010434570-74e9ba7126bc?w=900&q=85',
+    ]
+  },
+  {
+    id: 3,
+    name: 'First Snow',
+    price: '$1,800',
+    medium: 'Oil on panel',
+    size: '50 \u00d7 50 cm',
+    music: '',
+    edition: '10,000',
+    number: '37',
+    sold: false,
+    description: 'The hush that falls with the first snow of the season \u2014 white on white, shadow on shadow. A quiet study in restraint and presence.',
+    images: [
+      'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=900&q=85',
+      'https://images.unsplash.com/photo-1604871000636-074fa5117945?w=900&q=85',
+    ]
+  }
+];
+
+// ─── CURRENT PAINTINGS (live reference) ──────────────────────────────────────
+let currentPaintings = DEFAULT_PAINTINGS;
+
+// ─── LIGHTBOX STATE ───────────────────────────────────────────────────────────
+let lbImages = [], lbIndex = 0;
+const lightbox    = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lbPrev      = document.getElementById('lbPrev');
+const lbNext      = document.getElementById('lbNext');
+
+function openLightbox(images, startIndex) {
+  lbImages = images;
+  lbIndex  = startIndex;
+  updateLightbox();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLightbox() {
+  lightboxImg.src = lbImages[lbIndex];
+  lbPrev.disabled = lbIndex === 0;
+  lbNext.disabled = lbIndex === lbImages.length - 1;
+}
+
+lbPrev.addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; updateLightbox(); } });
+lbNext.addEventListener('click', () => { if (lbIndex < lbImages.length - 1) { lbIndex++; updateLightbox(); } });
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', e => {
+  if (lightbox.classList.contains('open')) {
+    if (e.key === 'ArrowLeft' && lbIndex > 0) { lbIndex--; updateLightbox(); }
+    if (e.key === 'ArrowRight' && lbIndex < lbImages.length - 1) { lbIndex++; updateLightbox(); }
+    if (e.key === 'Escape') closeLightbox();
+  }
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay.classList.contains('open') && e.key === 'Escape') closeModal();
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── RENDER GALLERY ───────────────────────────────────────────────────────────
+function renderGallery(paintings) {
+  currentPaintings = paintings;
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = '';
+
+  paintings.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'painting';
+
+    const mediaDiv = document.createElement('div');
+
+    const paintingMedia = document.createElement('div');
+    paintingMedia.className = 'painting-media';
+    paintingMedia.id = 'media-' + p.id;
+
+    const mainImg = document.createElement('img');
+    mainImg.id = 'main-img-' + p.id;
+    mainImg.src = p.images[0] || '';
+    mainImg.alt = p.name;
+    mainImg.loading = 'lazy';
+    paintingMedia.appendChild(mainImg);
+
+    if (p.images.length > 1) {
+      const badge = document.createElement('span');
+      badge.className = 'photo-count';
+      badge.textContent = '1 / ' + p.images.length;
+      paintingMedia.appendChild(badge);
+    }
+
+    if (p.sold) {
+      const overlay = document.createElement('div');
+      overlay.className = 'sold-overlay';
+      overlay.innerHTML = '<div class="sold-overlay-line"></div><div class="sold-overlay-text">Found its home.</div><div class="sold-overlay-line"></div>';
+      paintingMedia.appendChild(overlay);
+    }
+
+    paintingMedia.addEventListener('click', () => {
+      const activeThumb = mediaDiv.querySelector('.thumb.active');
+      const startIdx = activeThumb ? parseInt(activeThumb.dataset.idx) : 0;
+      openLightbox(p.images, startIdx);
+    });
+
+    mediaDiv.appendChild(paintingMedia);
+
+    if (p.images.length > 1) {
+      const thumbStrip = document.createElement('div');
+      thumbStrip.className = 'thumb-strip';
+      thumbStrip.id = 'thumbs-' + p.id;
+
+      p.images.forEach((src, i) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+        thumb.dataset.idx = i;
+        thumb.dataset.painting = p.id;
+
+        const tImg = document.createElement('img');
+        tImg.src = src;
+        tImg.alt = p.name + ' photo ' + (i + 1);
+        tImg.loading = 'lazy';
+        thumb.appendChild(tImg);
+
+        thumb.addEventListener('click', () => {
+          document.getElementById('main-img-' + p.id).src = p.images[i];
+          const countEl = document.querySelector('#media-' + p.id + ' .photo-count');
+          if (countEl) countEl.textContent = (i + 1) + ' / ' + p.images.length;
+          thumbStrip.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+        });
+
+        thumbStrip.appendChild(thumb);
+      });
+
+      mediaDiv.appendChild(thumbStrip);
+    }
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'painting-info';
+
+    const name = document.createElement('h2');
+    name.className = 'painting-name';
+    name.textContent = p.name;
+
+    const desc = document.createElement('p');
+    desc.className = 'painting-description';
+    desc.textContent = p.description;
+
+    const price = document.createElement('div');
+    price.className = 'painting-price';
+    price.textContent = p.price;
+
+    const details = document.createElement('div');
+    details.className = 'painting-details';
+
+    [
+      ['Medium', p.medium],
+      ['Size', p.size],
+      ['Background music', p.music || ''],
+      ['No.', p.number || '']
+    ].forEach(([lbl, val]) => {
+      const row = document.createElement('div');
+      row.className = 'detail-row';
+      const dl = document.createElement('span');
+      dl.className = 'detail-label';
+      dl.textContent = lbl;
+      const dv = document.createElement('span');
+      dv.className = 'detail-value';
+      dv.textContent = val;
+      row.appendChild(dl);
+      row.appendChild(dv);
+      details.appendChild(row);
+    });
+
+    infoDiv.appendChild(name);
+    infoDiv.appendChild(desc);
+    infoDiv.appendChild(price);
+    infoDiv.appendChild(details);
+
+    if (p.sold) {
+      const soldNote = document.createElement('div');
+      soldNote.style.cssText = 'display:inline-flex;align-items:center;padding:10px 20px;border-radius:980px;border:1.5px solid #c7c7cc;color:#aeaeb2;font-size:13px;font-weight:500;font-family:var(--font);letter-spacing:0.02em;cursor:default;user-select:none;';
+      soldNote.textContent = 'In private collection';
+      infoDiv.appendChild(soldNote);
+    } else {
+      const loveBtn = document.createElement('button');
+      loveBtn.className = 'love-btn';
+      loveBtn.dataset.painting = p.name;
+      loveBtn.innerHTML = '<span class="heart">&#x2661;</span> I Love This';
+      loveBtn.addEventListener('click', () => { openModal(p.name); });
+      infoDiv.appendChild(loveBtn);
+    }
+
+    card.appendChild(mediaDiv);
+    card.appendChild(infoDiv);
+    gallery.appendChild(card);
+  });
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+const overlay    = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+let currentPaintingName = '';
+
+function openModal(paintingName) {
+  currentPaintingName = paintingName;
+  document.getElementById('modalForm').style.display = 'block';
+  document.getElementById('thankYou').classList.remove('visible');
+  document.getElementById('contactForm').reset();
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+// ─── FORM SUBMIT / EMAILJS ────────────────────────────────────────────────────
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn      = document.getElementById('submitBtn');
+  const fullName = document.getElementById('fullName').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const phone    = document.getElementById('phone').value.trim();
+  const country  = document.getElementById('country').value;
+
+  if (!fullName || !email || !country) {
+    const missing = [];
+    if (!fullName) missing.push('Full Name');
+    if (!email)    missing.push('Email');
+    if (!country)  missing.push('Country');
+    alert('Please fill in: ' + missing.join(', '));
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending\u2026';
+
+  const settings = window._emailSettings || {};
+  const serviceId  = settings.serviceId  || '';
+  const templateId = settings.templateId || '';
+
+  const templateParams = {
+    painting_name: currentPaintingName,
+    full_name:     fullName,
+    email:         email,
+    phone:         phone || 'Not provided',
+    country:       country,
+  };
+
+  try {
+    if (serviceId && templateId) {
+      await emailjs.send(serviceId, templateId, templateParams);
+    }
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('thankYou').classList.add('visible');
+  } catch (err) {
+    console.error('EmailJS error:', err);
+    alert('Something went wrong. Please try again or contact us directly.');
+    btn.disabled = false;
+    btn.textContent = 'Send Interest';
+  }
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  renderGallery(DEFAULT_PAINTINGS); // immediate render with defaults
+
+  const saved = await DB.get('paintings');
+  if (saved && saved.length) renderGallery(saved); // re-render if saved data exists
+
+  const settings = await DB.get('settings') || {};
+  if (settings.publicKey) {
+    try { emailjs.init({ publicKey: settings.publicKey }); } catch(e) {}
+  }
+  window._emailSettings = settings;
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Mooonarch</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f5f5f7;
+    --light-gray: #e8e8ed;
+    --mid-gray: #86868b;
+    --dark: #1d1d1f;
+    --accent: #c9aa71;
+    --font: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--white);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    color: var(--mid-gray);
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--dark); }
+
+  /* PAGE WRAPPER */
+  .page-wrap {
+    padding-top: 52px;
+  }
+
+  /* HERO */
+  .about-hero {
+    padding: 100px 24px 72px;
+    text-align: center;
+    background: var(--off-white);
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .about-hero .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--dark);
+    margin-bottom: 22px;
+  }
+
+  .about-hero p {
+    font-size: clamp(17px, 2.2vw, 21px);
+    color: var(--mid-gray);
+    font-weight: 400;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin: 52px auto 0;
+    border-radius: 2px;
+  }
+
+  /* BIO SECTION */
+  .bio-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 24px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .bio-text-col {}
+
+  .bio-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .bio-heading {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 32px;
+  }
+
+  .bio-body {
+    font-size: 17px;
+    line-height: 1.78;
+    color: #515154;
+  }
+
+  .bio-body p + p {
+    margin-top: 22px;
+  }
+
+  .bio-portrait {
+    position: relative;
+  }
+
+  .bio-portrait-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+    display: block;
+  }
+
+  .bio-portrait-caption {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--mid-gray);
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+
+  /* PHOTO GRID SECTION */
+  .photos-section {
+    background: var(--off-white);
+    border-top: 1px solid var(--light-gray);
+    padding: 100px 24px;
+  }
+
+  .photos-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .section-heading {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--mid-gray);
+    text-align: center;
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* PHOTO GRID */
+  .about-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 60px;
+  }
+
+  .about-photo-grid img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .about-photo-grid img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 60px 24px;
+    border-top: 1px solid var(--light-gray);
+    color: var(--mid-gray);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  footer strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
+  }
+
+  .lightbox.open { opacity: 1; visibility: visible; }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 6px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+
+  .lightbox-nav:hover { background: rgba(255,255,255,0.22); }
+  .lightbox-nav.prev { left: 20px; }
+  .lightbox-nav.next { right: 20px; }
+  .lightbox-nav[disabled] { opacity: 0.25; pointer-events: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .bio-section {
+      grid-template-columns: 1fr;
+      gap: 52px;
+    }
+    .bio-portrait {
+      max-width: 380px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about-hero { padding: 80px 20px 60px; }
+    .bio-section { padding: 72px 20px; }
+    .photos-section { padding: 72px 20px; }
+    nav { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Mooonarch</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Artefacts</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="eyebrow">The Story</div>
+    <h1 id="aboutHeading">About</h1>
+    <p id="aboutSubheading">Painting the quiet moments the world rushes past.</p>
+    <div class="hero-divider"></div>
+  </section>
+
+  <!-- BIO SECTION -->
+  <section class="bio-section">
+    <div class="bio-text-col">
+      <div class="bio-label">Artist Statement</div>
+      <h2 class="bio-heading" id="bioHeading">The Artist</h2>
+      <div class="bio-body" id="bioParagraphs"></div>
+    </div>
+    <div class="bio-portrait">
+      <img
+        class="bio-portrait-img"
+        src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+        alt="Artist portrait"
+        id="portraitImg"
+      >
+      <div class="bio-portrait-caption">In the studio, 2024</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Mooonarch</strong>
+    Original paintings available for private acquisition.<br>
+    Each work is unique and comes with a certificate of authenticity.<br><br>
+    <a href="admin.html" style="color: var(--light-gray); font-size: 11px; text-decoration: none;">Admin</a>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-nav prev" id="lbPrev">&#8592;</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav next" id="lbNext">&#8594;</button>
+  <button class="lightbox-close" id="lightboxClose">&#x2715;</button>
+</div>
+
+<script>
+// ─── SHARED DB MODULE ─────────────────────────────────────────────────────────
+const DB = {
+  _db: null,
+  async init() {
+    if (this._db) return;
+    return new Promise((res, rej) => {
+      const req = indexedDB.open('mooonarchDB', 1);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('store')) db.createObjectStore('store');
+      };
+      req.onsuccess = e => { this._db = e.target.result; res(); };
+      req.onerror = rej;
+    });
+  },
+  async get(key) {
+    await this.init();
+    return new Promise((res, rej) => {
+      const tx = this._db.transaction('store', 'readonly');
+      const req = tx.objectStore('store').get(key);
+      req.onsuccess = () => res(req.result ?? null);
+      req.onerror = rej;
+    });
+  },
+  async set(key, value) {
+    await this.init();
+    return new Promise((res, rej) => {
+      const tx = this._db.transaction('store', 'readwrite');
+      const req = tx.objectStore('store').put(value, key);
+      req.onsuccess = () => res();
+      req.onerror = rej;
+    });
+  }
+};
+
+// ─── DEFAULT ABOUT DATA ───────────────────────────────────────────────────────
+const DEFAULT_ABOUT = {
+  heading: 'The Artist',
+  subheading: 'Painting the quiet moments the world rushes past.',
+  bio: `Each painting in the Mooonarch collection begins with a moment \u2014 a quality of light through a window, the stillness of water before wind, the hush of a field in late autumn.\n\nThe work is slow by design. Layers are built and removed. Paint is added and taken away. What remains is what insists on staying.\n\nMooonarch paintings are held in private collections across Europe and North America. Each work is unique and sold with a certificate of authenticity.`,
+  images: [
+    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80',
+    'https://images.unsplash.com/photo-1578301978693-4561d5c5af9e?w=800&q=80',
+    'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80',
+    'https://images.unsplash.com/photo-1579541592935-3bba6dc1f671?w=800&q=80',
+  ]
+};
+
+// ─── RENDER ABOUT ─────────────────────────────────────────────────────────────
+function renderAbout(data) {
+  document.getElementById('aboutHeading').textContent = 'About';
+  document.getElementById('aboutSubheading').textContent = data.subheading || DEFAULT_ABOUT.subheading;
+  document.getElementById('bioHeading').textContent = data.heading || DEFAULT_ABOUT.heading;
+
+  const bioParagraphs = document.getElementById('bioParagraphs');
+  bioParagraphs.innerHTML = '';
+  const bioText = data.bio || DEFAULT_ABOUT.bio;
+  bioText.split('\n\n').forEach(para => {
+    if (!para.trim()) return;
+    const p = document.createElement('p');
+    p.textContent = para.trim();
+    bioParagraphs.appendChild(p);
+  });
+
+  // Portrait: use first image as portrait if available
+  const images = data.images && data.images.length ? data.images : DEFAULT_ABOUT.images;
+  document.getElementById('portraitImg').src = images[0];
+
+  // Photo grid: remaining images (skip first which is portrait)
+  const gridImages = images.slice(1);
+  renderPhotoGrid(gridImages.length > 0 ? gridImages : images);
+}
+
+function renderPhotoGrid(images) {
+  const grid = document.getElementById('photoGrid');
+  grid.innerHTML = '';
+  images.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Studio photo ' + (i + 1);
+    img.loading = 'lazy';
+    img.addEventListener('click', () => openLightbox(images, i));
+    grid.appendChild(img);
+  });
+}
+
+// ─── LIGHTBOX ─────────────────────────────────────────────────────────────────
+let lbImages = [], lbIndex = 0;
+const lightbox    = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lbPrev      = document.getElementById('lbPrev');
+const lbNext      = document.getElementById('lbNext');
+
+function openLightbox(images, startIndex) {
+  lbImages = images;
+  lbIndex  = startIndex;
+  updateLightbox();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLightbox() {
+  lightboxImg.src = lbImages[lbIndex];
+  lbPrev.disabled = lbIndex === 0;
+  lbNext.disabled = lbIndex === lbImages.length - 1;
+}
+
+lbPrev.addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; updateLightbox(); } });
+lbNext.addEventListener('click', () => { if (lbIndex < lbImages.length - 1) { lbIndex++; updateLightbox(); } });
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft' && lbIndex > 0) { lbIndex--; updateLightbox(); }
+  if (e.key === 'ArrowRight' && lbIndex < lbImages.length - 1) { lbIndex++; updateLightbox(); }
+  if (e.key === 'Escape') closeLightbox();
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  renderAbout(DEFAULT_ABOUT); // immediate render with defaults
+
+  const saved = await DB.get('about');
+  if (saved) renderAbout(saved); // re-render if saved data exists
+}
+
+init();
+</script>
+</body>
+</html>
