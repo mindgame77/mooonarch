@@ -933,7 +933,7 @@ function renderGallery(paintings) {
     if (p.sold) {
       const soldNote = document.createElement('div');
       soldNote.style.cssText = 'display:inline-flex;align-items:center;padding:10px 20px;border-radius:980px;border:1.5px solid #c7c7cc;color:#aeaeb2;font-size:13px;font-weight:500;font-family:var(--font);letter-spacing:0.02em;cursor:default;user-select:none;';
-      soldNote.textContent = 'In private collection';
+      soldNote.textContent = 'In a private collection';
       infoDiv.appendChild(soldNote);
     } else {
       const loveBtn = document.createElement('button');
