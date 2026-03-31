@@ -1195,11 +1195,19 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 
 // ─── TABS ─────────────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', async () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'requests') {
+      // Always re-fetch latest leads when opening this tab
+      try {
+        const res = await fetch('/data.json?v=' + Date.now());
+        if (res.ok) { const d = await res.json(); state.leads = d.leads || []; }
+      } catch(e) {}
+      renderRequestsTab();
+    }
   });
 });
 
@@ -1926,7 +1934,7 @@ function drawLeadsChart(leads) {
     if (m) m.count++;
   });
 
-  const W = canvas.parentElement.clientWidth - 48;
+  const W = (canvas.parentElement.clientWidth || 600) - 48;
   const H = 140;
   canvas.width = W;
   canvas.height = H;
