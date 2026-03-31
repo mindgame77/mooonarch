@@ -494,31 +494,40 @@
 
   /* INSTAGRAM SECTION */
   .instagram-section {
-    text-align: center;
-    padding: 72px 24px;
+    padding: 72px 0 80px;
     border-top: 1px solid var(--light-gray);
     background: var(--off-white);
+    overflow: hidden;
   }
 
-  .instagram-section p {
-    font-size: 14px;
+  .instagram-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    margin-bottom: 32px;
+  }
+
+  .instagram-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--mid-gray);
-    margin-bottom: 20px;
-    letter-spacing: 0.02em;
   }
 
   .instagram-link {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 13px 28px;
+    gap: 8px;
+    padding: 9px 20px;
     border-radius: 980px;
     border: 1.5px solid var(--dark);
     color: var(--dark);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     font-family: var(--font);
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     text-decoration: none;
     transition: background 0.2s, color 0.2s;
   }
@@ -529,9 +538,52 @@
   }
 
   .instagram-link svg {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
+  }
+
+  .instagram-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 40px 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .instagram-scroll::-webkit-scrollbar { display: none; }
+
+  .instagram-frame {
+    flex-shrink: 0;
+    width: 320px;
+    height: 400px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--light-gray);
+    scroll-snap-align: start;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .instagram-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .instagram-empty {
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .instagram-empty p {
+    font-size: 14px;
+    color: var(--mid-gray);
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
   }
 
   /* VIDEO THUMB */
@@ -708,16 +760,30 @@
 <main class="gallery" id="gallery"></main>
 
 <!-- INSTAGRAM -->
-<section class="instagram-section">
-  <p>Follow along</p>
-  <a href="https://www.instagram.com/mooonarchart" target="_blank" rel="noopener" class="instagram-link">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-      <circle cx="12" cy="12" r="4"/>
-      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-    </svg>
-    @mooonarchart
-  </a>
+<section class="instagram-section" id="instagramSection">
+  <div class="instagram-header">
+    <span class="instagram-title">On Instagram</span>
+    <a href="https://www.instagram.com/mooonarchart" target="_blank" rel="noopener" class="instagram-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+      @mooonarchart
+    </a>
+  </div>
+  <div class="instagram-scroll" id="instagramScroll"></div>
+  <div class="instagram-empty" id="instagramEmpty" style="display:none;">
+    <p>Follow along on Instagram</p>
+    <a href="https://www.instagram.com/mooonarchart" target="_blank" rel="noopener" class="instagram-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+      @mooonarchart
+    </a>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1188,6 +1254,38 @@ document.getElementById('contactForm').addEventListener('submit', async function
 });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
+function igToEmbedUrl(url) {
+  const reel = url.match(/instagram\.com\/reel\/([A-Za-z0-9_-]+)/);
+  if (reel) return 'https://www.instagram.com/reel/' + reel[1] + '/embed/';
+  const post = url.match(/instagram\.com\/p\/([A-Za-z0-9_-]+)/);
+  if (post) return 'https://www.instagram.com/p/' + post[1] + '/embed/';
+  return null;
+}
+
+function renderInstagram(posts) {
+  const scroll = document.getElementById('instagramScroll');
+  const empty  = document.getElementById('instagramEmpty');
+  scroll.innerHTML = '';
+  const valid = (posts || []).map(igToEmbedUrl).filter(Boolean);
+  if (valid.length === 0) {
+    scroll.style.display = 'none';
+    empty.style.display = '';
+    return;
+  }
+  scroll.style.display = '';
+  empty.style.display = 'none';
+  valid.forEach(src => {
+    const frame = document.createElement('div');
+    frame.className = 'instagram-frame';
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    frame.appendChild(iframe);
+    scroll.appendChild(frame);
+  });
+}
+
 async function init() {
   renderGallery(DEFAULT_PAINTINGS); // immediate render with defaults
 
@@ -1199,6 +1297,9 @@ async function init() {
     try { emailjs.init({ publicKey: settings.publicKey }); } catch(e) {}
   }
   window._emailSettings = settings;
+
+  const igPosts = await DB.get('instagramPosts') || [];
+  renderInstagram(igPosts);
 }
 
 init();

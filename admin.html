@@ -840,6 +840,19 @@
     <div class="section-divider"></div>
 
     <div class="settings-section">
+      <div class="settings-title">Instagram Feed</div>
+      <div class="settings-desc">Paste Instagram post or reel URLs — one per line. These will appear as a horizontal carousel on the main page.</div>
+      <div class="settings-card">
+        <div class="field-row-single field-group">
+          <label>Post URLs (one per line)</label>
+          <textarea id="instagramUrlsInput" rows="6" placeholder="https://www.instagram.com/p/ABC123/&#10;https://www.instagram.com/reel/XYZ456/"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="settings-section">
       <div class="settings-title">Change Admin Password</div>
       <div class="settings-desc">Update the password for this admin panel.</div>
       <div class="settings-card">
@@ -975,7 +988,8 @@ const DEFAULT_ABOUT = {
 let state = {
   paintings: [],
   about: {},
-  settings: {}
+  settings: {},
+  instagramPosts: []
 };
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
@@ -992,6 +1006,9 @@ async function initAdmin() {
 
   const savedSettings = await DB.get('settings');
   state.settings = savedSettings ? JSON.parse(JSON.stringify(savedSettings)) : {};
+
+  const savedIg = await DB.get('instagramPosts');
+  state.instagramPosts = savedIg ? savedIg : [];
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
@@ -1547,6 +1564,7 @@ function renderSettingsTab() {
   document.getElementById('settingsServiceId').value = state.settings.serviceId || '';
   document.getElementById('settingsTemplateId').value = state.settings.templateId || '';
   document.getElementById('settingsPublicKey').value = state.settings.publicKey || '';
+  document.getElementById('instagramUrlsInput').value = (state.instagramPosts || []).join('\n');
 }
 
 // Password update
@@ -1615,10 +1633,15 @@ async function saveAll() {
   state.settings.templateId = document.getElementById('settingsTemplateId').value.trim();
   state.settings.publicKey  = document.getElementById('settingsPublicKey').value.trim();
 
+  // 3b. Collect instagram posts
+  const igRaw = document.getElementById('instagramUrlsInput').value;
+  state.instagramPosts = igRaw.split('\n').map(u => u.trim()).filter(u => u.length > 0);
+
   // 4. Save to IndexedDB
   await DB.set('paintings', state.paintings);
   await DB.set('about', state.about);
   await DB.set('settings', state.settings);
+  await DB.set('instagramPosts', state.instagramPosts);
 
   // 5. Re-render paintings tab titles
   renderPaintingsTab();
