@@ -9,7 +9,7 @@ exports.handler = async (event) => {
   const { filename, content } = body;
   if (!filename || !content) return { statusCode: 400, body: 'Missing filename or content' };
 
-  const store = getStore({ name: 'images', consistency: 'strong' });
+  const store = getStore('images');
   await store.set(filename, content);
 
   return {

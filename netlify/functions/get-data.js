@@ -1,7 +1,7 @@
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async () => {
-  const store = getStore({ name: 'site-data', consistency: 'strong' });
+  const store = getStore('site-data');
   const data = await store.get('data');
   return {
     statusCode: 200,

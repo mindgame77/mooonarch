@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
 
-  const store = getStore({ name: 'site-data', consistency: 'strong' });
+  const store = getStore('site-data');
   await store.set('data', JSON.stringify(body));
 
   return { statusCode: 200, body: JSON.stringify({ success: true }) };
