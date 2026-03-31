@@ -1138,6 +1138,20 @@ async function initAdmin() {
 
   window._adminPw = await DB.get('adminPassword') || '395476024';
 
+  // Always load from data.json first (source of truth for all devices)
+  try {
+    const res = await fetch('/data.json?v=' + Date.now());
+    if (res.ok) {
+      const d = await res.json();
+      if (d.paintings && d.paintings.length) state.paintings = JSON.parse(JSON.stringify(d.paintings));
+      if (d.about) state.about = JSON.parse(JSON.stringify(d.about));
+      if (d.instagramPosts) state.instagramPosts = d.instagramPosts;
+      if (d.leads) state.leads = d.leads;
+      return;
+    }
+  } catch(e) {}
+
+  // Fallback: IndexedDB (only if data.json unreachable)
   const saved = await DB.get('paintings');
   state.paintings = saved ? JSON.parse(JSON.stringify(saved)) : JSON.parse(JSON.stringify(DEFAULT_PAINTINGS));
 
@@ -1149,15 +1163,6 @@ async function initAdmin() {
 
   const savedIg = await DB.get('instagramPosts');
   state.instagramPosts = savedIg ? savedIg : [];
-
-  // Leads always come from server (not IndexedDB)
-  try {
-    const res = await fetch('/data.json?v=' + Date.now());
-    if (res.ok) {
-      const d = await res.json();
-      state.leads = d.leads || [];
-    }
-  } catch(e) {}
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
