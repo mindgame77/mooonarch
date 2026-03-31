@@ -27,6 +27,8 @@
     overflow-x: hidden;
   }
 
+  html { overflow-x: hidden; }
+
   /* NAV */
   nav {
     position: fixed;
@@ -1262,6 +1264,7 @@ function renderInstagram(posts) {
     const iframe = document.createElement('iframe');
     iframe.src = src;
     iframe.loading = 'lazy';
+    iframe.setAttribute('scrolling', 'no');
     frame.appendChild(iframe);
     const link = document.createElement('a');
     link.href = originalUrl;
