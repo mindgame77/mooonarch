@@ -492,6 +492,99 @@
     line-height: 1.6;
   }
 
+  /* INSTAGRAM SECTION */
+  .instagram-section {
+    text-align: center;
+    padding: 72px 24px;
+    border-top: 1px solid var(--light-gray);
+    background: var(--off-white);
+  }
+
+  .instagram-section p {
+    font-size: 14px;
+    color: var(--mid-gray);
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 28px;
+    border-radius: 980px;
+    border: 1.5px solid var(--dark);
+    color: var(--dark);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font);
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .instagram-link:hover {
+    background: var(--dark);
+    color: var(--white);
+  }
+
+  .instagram-link svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* VIDEO THUMB */
+  .thumb-video {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: white;
+    font-size: 18px;
+  }
+
+  /* VIDEO LIGHTBOX */
+  .video-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
+  }
+
+  .video-lightbox.open { opacity: 1; visibility: visible; }
+
+  .video-lightbox iframe {
+    width: min(480px, 90vw);
+    height: min(854px, 80vh);
+    border: none;
+    border-radius: 10px;
+  }
+
+  .video-lb-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+
+  .video-lb-close:hover { background: rgba(255,255,255,0.22); }
+
   /* FOOTER */
   footer {
     text-align: center;
@@ -614,13 +707,31 @@
 <!-- GALLERY -->
 <main class="gallery" id="gallery"></main>
 
+<!-- INSTAGRAM -->
+<section class="instagram-section">
+  <p>Follow along</p>
+  <a href="https://www.instagram.com/mooonarchart" target="_blank" rel="noopener" class="instagram-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+    </svg>
+    @mooonarchart
+  </a>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <strong>Mooonarch</strong>
-  Original paintings available for private acquisition.<br>
-  Each work is unique and comes with a certificate of authenticity.<br><br>
+  Made with love in California ❤️<br><br>
   <a href="admin.html" style="color: var(--light-gray); font-size: 11px; text-decoration: none;">Admin</a>
 </footer>
+
+<!-- VIDEO LIGHTBOX -->
+<div class="video-lightbox" id="videoLightbox">
+  <button class="video-lb-close" id="videoLbClose">&#x2715;</button>
+  <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -812,6 +923,42 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
+// ─── VIDEO LIGHTBOX ───────────────────────────────────────────────────────────
+const videoLightbox = document.getElementById('videoLightbox');
+const videoIframe   = document.getElementById('videoIframe');
+
+function toEmbedUrl(url) {
+  if (!url) return '';
+  const igReel = url.match(/instagram\.com\/reel\/([A-Za-z0-9_-]+)/);
+  if (igReel) return 'https://www.instagram.com/reel/' + igReel[1] + '/embed/';
+  const igPost = url.match(/instagram\.com\/p\/([A-Za-z0-9_-]+)/);
+  if (igPost) return 'https://www.instagram.com/p/' + igPost[1] + '/embed/';
+  const ytWatch = url.match(/[?&]v=([A-Za-z0-9_-]+)/);
+  if (ytWatch) return 'https://www.youtube.com/embed/' + ytWatch[1];
+  const ytShort = url.match(/youtu\.be\/([A-Za-z0-9_-]+)/);
+  if (ytShort) return 'https://www.youtube.com/embed/' + ytShort[1];
+  return url;
+}
+
+function openVideoLightbox(url) {
+  videoIframe.src = toEmbedUrl(url);
+  videoLightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoLightbox() {
+  videoLightbox.classList.remove('open');
+  videoIframe.src = '';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('videoLbClose').addEventListener('click', closeVideoLightbox);
+videoLightbox.addEventListener('click', e => { if (e.target === videoLightbox) closeVideoLightbox(); });
+
+document.addEventListener('keydown', e => {
+  if (videoLightbox.classList.contains('open') && e.key === 'Escape') closeVideoLightbox();
+});
+
 // ─── RENDER GALLERY ───────────────────────────────────────────────────────────
 function renderGallery(paintings) {
   currentPaintings = paintings;
@@ -835,10 +982,11 @@ function renderGallery(paintings) {
     mainImg.loading = 'lazy';
     paintingMedia.appendChild(mainImg);
 
-    if (p.images.length > 1) {
+    const totalItems = p.images.length + (p.video ? 1 : 0);
+    if (totalItems > 1) {
       const badge = document.createElement('span');
       badge.className = 'photo-count';
-      badge.textContent = '1 / ' + p.images.length;
+      badge.textContent = '1 / ' + totalItems;
       paintingMedia.appendChild(badge);
     }
 
@@ -851,13 +999,17 @@ function renderGallery(paintings) {
 
     paintingMedia.addEventListener('click', () => {
       const activeThumb = mediaDiv.querySelector('.thumb.active');
-      const startIdx = activeThumb ? parseInt(activeThumb.dataset.idx) : 0;
-      openLightbox(p.images, startIdx);
+      if (activeThumb && activeThumb.dataset.type === 'video') {
+        openVideoLightbox(p.video);
+      } else {
+        const startIdx = activeThumb ? parseInt(activeThumb.dataset.idx) : 0;
+        openLightbox(p.images, startIdx);
+      }
     });
 
     mediaDiv.appendChild(paintingMedia);
 
-    if (p.images.length > 1) {
+    if (totalItems > 1) {
       const thumbStrip = document.createElement('div');
       thumbStrip.className = 'thumb-strip';
       thumbStrip.id = 'thumbs-' + p.id;
@@ -866,6 +1018,7 @@ function renderGallery(paintings) {
         const thumb = document.createElement('div');
         thumb.className = 'thumb' + (i === 0 ? ' active' : '');
         thumb.dataset.idx = i;
+        thumb.dataset.type = 'image';
         thumb.dataset.painting = p.id;
 
         const tImg = document.createElement('img');
@@ -877,13 +1030,27 @@ function renderGallery(paintings) {
         thumb.addEventListener('click', () => {
           document.getElementById('main-img-' + p.id).src = p.images[i];
           const countEl = document.querySelector('#media-' + p.id + ' .photo-count');
-          if (countEl) countEl.textContent = (i + 1) + ' / ' + p.images.length;
+          if (countEl) countEl.textContent = (i + 1) + ' / ' + totalItems;
           thumbStrip.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
           thumb.classList.add('active');
         });
 
         thumbStrip.appendChild(thumb);
       });
+
+      if (p.video) {
+        const videoThumb = document.createElement('div');
+        videoThumb.className = 'thumb thumb-video';
+        videoThumb.dataset.type = 'video';
+        videoThumb.innerHTML = '&#9654;';
+        videoThumb.title = 'Watch video';
+        videoThumb.addEventListener('click', () => {
+          thumbStrip.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+          videoThumb.classList.add('active');
+          openVideoLightbox(p.video);
+        });
+        thumbStrip.appendChild(videoThumb);
+      }
 
       mediaDiv.appendChild(thumbStrip);
     }

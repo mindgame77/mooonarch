@@ -1301,6 +1301,19 @@ function buildPaintingCard(p, idx) {
     }
   });
 
+  // Video URL
+  const videoRow = document.createElement('div');
+  videoRow.className = 'field-row-single field-group';
+  const videoLabel = document.createElement('label');
+  videoLabel.textContent = 'Video URL (Instagram Reel / YouTube)';
+  const videoInput = document.createElement('input');
+  videoInput.type = 'url';
+  videoInput.setAttribute('data-field', 'video');
+  videoInput.placeholder = 'https://www.instagram.com/reel/...';
+  videoInput.value = p.video || '';
+  videoRow.appendChild(videoLabel);
+  videoRow.appendChild(videoInput);
+
   // Sold toggle
   const soldRow = document.createElement('div');
   soldRow.className = 'sold-toggle-row';
@@ -1323,6 +1336,7 @@ function buildPaintingCard(p, idx) {
   body.appendChild(row3);
   body.appendChild(row4);
   body.appendChild(descRow);
+  body.appendChild(videoRow);
   body.appendChild(soldRow);
   body.appendChild(imagesLabel);
   body.appendChild(imagesRow);
@@ -1585,6 +1599,8 @@ async function saveAll() {
     if (musicInp)   p.music       = musicInp.value.trim();
     if (numberInp)  p.number      = numberInp.value.trim();
     if (descInp)    p.description = descInp.value.trim();
+    const videoInp = card.querySelector('[data-field="video"]');
+    if (videoInp)  p.video       = videoInp.value.trim();
     const soldInp  = card.querySelector('[data-field="sold"]');
     if (soldInp)   p.sold        = soldInp.checked;
   });
