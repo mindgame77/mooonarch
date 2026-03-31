@@ -738,12 +738,6 @@
 </head>
 <body>
 
-<!-- Hidden form for Netlify Forms detection -->
-<form name="contact" method="post" action="/" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="contact">
-  <input name="painting_name"><input name="fullName"><input name="email"><input name="phone"><input name="country">
-</form>
-
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Mooonarch</a>
@@ -1218,22 +1212,26 @@ document.getElementById('contactForm').addEventListener('submit', async function
   btn.disabled = true;
   btn.textContent = 'Sending\u2026';
 
-  const body = new URLSearchParams({
-    'form-name':    'contact',
-    'painting_name': currentPaintingName,
-    'fullName':      fullName,
-    'email':         email,
-    'phone':         phone || 'Not provided',
-    'country':       country,
-  });
+  const settings = window._emailSettings || {};
+  const serviceId  = settings.serviceId  || '';
+  const templateId = settings.templateId || '';
+
+  const templateParams = {
+    painting_name: currentPaintingName,
+    full_name:     fullName,
+    email:         email,
+    phone:         phone || 'Not provided',
+    country:       country,
+  };
 
   try {
-    const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
-    if (!res.ok) throw new Error('Network error');
+    if (serviceId && templateId) {
+      await emailjs.send(serviceId, templateId, templateParams);
+    }
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('thankYou').classList.add('visible');
   } catch (err) {
-    console.error('Form error:', err);
+    console.error('EmailJS error:', err);
     alert('Something went wrong. Please try again or contact us directly.');
     btn.disabled = false;
     btn.textContent = 'Send Interest';
