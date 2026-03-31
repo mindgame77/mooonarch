@@ -473,6 +473,7 @@ function renderAbout(data) {
 
 function renderPhotoGrid(images) {
   const grid = document.getElementById('photoGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   images.forEach((src, i) => {
     const img = document.createElement('img');
