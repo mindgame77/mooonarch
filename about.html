@@ -524,20 +524,31 @@ function closeLightbox() {
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 async function init() {
-  renderAbout(DEFAULT_ABOUT); // immediate render with defaults
+  // Hide content until data loads to avoid flash of defaults
+  const bioSection = document.querySelector('.bio-section');
+  const heroSub = document.getElementById('aboutSubheading');
+  if (bioSection) bioSection.style.visibility = 'hidden';
+  if (heroSub) heroSub.style.visibility = 'hidden';
 
   // Try published data.json first
   try {
     const res = await fetch('/data.json?v=' + Date.now());
     if (res.ok) {
       const siteData = await res.json();
-      if (siteData && siteData.about) { renderAbout(siteData.about); return; }
+      if (siteData && siteData.about) {
+        renderAbout(siteData.about);
+        if (bioSection) bioSection.style.visibility = '';
+        if (heroSub) heroSub.style.visibility = '';
+        return;
+      }
     }
   } catch(e) {}
 
   // Fallback: local IndexedDB
   const saved = await DB.get('about');
-  if (saved) renderAbout(saved);
+  if (saved) renderAbout(saved); else renderAbout(DEFAULT_ABOUT);
+  if (bioSection) bioSection.style.visibility = '';
+  if (heroSub) heroSub.style.visibility = '';
 }
 
 init();
