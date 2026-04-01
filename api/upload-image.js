@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
   const putRes = await fetch(url, {
     method: 'PUT',
     headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', 'User-Agent': 'mooonarch' },
-    body: JSON.stringify({ message: 'upload image', content })
+    body: JSON.stringify({ message: 'upload image [vercel skip]', content })
   });
 
   if (!putRes.ok) { const e = await putRes.json(); return res.status(500).json({ error: e.message }); }
