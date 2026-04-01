@@ -41,7 +41,7 @@ exports.handler = async (event) => {
   data.leads = merged;
 
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
-  const body = { message: 'update site data', content };
+  const body = { message: 'update site data [skip ci]', content };
   if (sha) body.sha = sha;
 
   const res = await fetch(url, {

@@ -9,7 +9,8 @@ exports.handler = async (event) => {
 
   const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
   let sha = null;
-  let siteData = {};
+  let siteData = null;
+
   try {
     const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, 'User-Agent': 'mooonarch' } });
     if (getRes.ok) {
@@ -18,6 +19,9 @@ exports.handler = async (event) => {
       siteData = JSON.parse(Buffer.from(f.content, 'base64').toString('utf8'));
     }
   } catch(e) {}
+
+  // Never commit if we couldn't load existing data — would wipe paintings
+  if (!siteData) return { statusCode: 500, body: JSON.stringify({ error: 'Could not load existing data' }) };
 
   if (!siteData.leads) siteData.leads = [];
   siteData.leads.push({
@@ -32,7 +36,7 @@ exports.handler = async (event) => {
   });
 
   const content = Buffer.from(JSON.stringify(siteData, null, 2)).toString('base64');
-  const putBody = { message: 'new inquiry', content };
+  const putBody = { message: 'new inquiry [skip ci]', content };
   if (sha) putBody.sha = sha;
 
   const res = await fetch(url, {
