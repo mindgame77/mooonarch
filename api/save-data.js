@@ -36,17 +36,8 @@ module.exports = async (req, res) => {
     return res.status(409).json({ error: 'Refusing to overwrite real paintings with placeholder data' });
   }
 
-  // Merge leads: keep all server leads, only update statuses from admin
-  const serverLeads = existingData.leads || [];
-  const adminLeads = data.leads || [];
-  const merged = serverLeads.map(sl => {
-    const al = adminLeads.find(x => String(x.id) === String(sl.id));
-    return al ? { ...sl, status: al.status } : sl;
-  });
-  adminLeads.forEach(al => {
-    if (!merged.find(x => String(x.id) === String(al.id))) merged.push(al);
-  });
-  data.leads = merged;
+  // Strip leads — they live in the private repo now
+  delete data.leads;
 
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
   const putBody = { message: 'update site data [vercel skip]', content };

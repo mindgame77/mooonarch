@@ -7,31 +7,23 @@ module.exports = async (req, res) => {
   const body = req.body;
   if (!body) return res.status(400).send('Invalid JSON');
 
-  const REPO = 'mindgame77/mooonarch';
+  const PRIVATE_REPO = 'mindgame77/mooonarch-leads';
+  const PUBLIC_REPO = 'mindgame77/mooonarch';
   const headers = { Authorization: 'token ' + token, 'User-Agent': 'mooonarch', 'Content-Type': 'application/json' };
 
-  // Read content via raw URL (no 1MB size limit)
-  let siteData = null;
-  try {
-    const rawRes = await fetch('https://raw.githubusercontent.com/' + REPO + '/main/data.json?v=' + Date.now());
-    if (rawRes.ok) siteData = await rawRes.json();
-  } catch(e) {}
-
-  if (!siteData) return res.status(500).json({ error: 'Could not load existing data' });
-
-  // Get SHA via git tree API
+  // Read existing leads from private repo
+  let leads = [];
   let sha = null;
   try {
-    const refRes = await fetch('https://api.github.com/repos/' + REPO + '/git/ref/heads/main', { headers });
-    const refData = await refRes.json();
-    const treeRes = await fetch('https://api.github.com/repos/' + REPO + '/git/trees/' + refData.object.sha, { headers });
-    const treeData = await treeRes.json();
-    const file = (treeData.tree || []).find(f => f.path === 'data.json');
-    if (file) sha = file.sha;
+    const apiRes = await fetch('https://api.github.com/repos/' + PRIVATE_REPO + '/contents/leads.json', { headers });
+    if (apiRes.ok) {
+      const d = await apiRes.json();
+      sha = d.sha;
+      leads = JSON.parse(Buffer.from(d.content, 'base64').toString('utf8'));
+    }
   } catch(e) {}
 
-  if (!siteData.leads) siteData.leads = [];
-  siteData.leads.push({
+  leads.push({
     id: Date.now(),
     date: new Date().toISOString(),
     painting: body.painting || '',
@@ -42,11 +34,11 @@ module.exports = async (req, res) => {
     status: 'new'
   });
 
-  const content = Buffer.from(JSON.stringify(siteData, null, 2)).toString('base64');
+  const content = Buffer.from(JSON.stringify(leads, null, 2)).toString('base64');
   const putBody = { message: 'new inquiry [vercel skip]', content };
   if (sha) putBody.sha = sha;
 
-  const putRes = await fetch('https://api.github.com/repos/' + REPO + '/contents/data.json', {
+  const putRes = await fetch('https://api.github.com/repos/' + PRIVATE_REPO + '/contents/leads.json', {
     method: 'PUT', headers, body: JSON.stringify(putBody)
   });
 
