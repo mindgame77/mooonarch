@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
   delete data.leads;
 
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
-  const putBody = { message: 'update site data [vercel skip]', content };
+  const putBody = { message: 'update site data', content };
   if (sha) putBody.sha = sha;
 
   const putRes = await fetch('https://api.github.com/repos/' + REPO + '/contents/data.json', {
