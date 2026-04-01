@@ -323,6 +323,43 @@
   .love-btn:active { transform: translateY(0); }
   .love-btn .heart { font-size: 17px; line-height: 1; }
 
+  /* PRIVATE COLLECTION BUTTON */
+  .private-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e5e5ea;
+    color: #aeaeb2;
+    border: none;
+    border-radius: 980px;
+    padding: 11px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow: visible;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .private-btn:active { background: #d1d1d6; }
+
+  /* FLOATING HEART ANIMATION */
+  @keyframes heartFloat {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    60%  { opacity: 1; transform: translateY(-38px) scale(1.3); }
+    100% { opacity: 0; transform: translateY(-58px) scale(0.9); }
+  }
+  .float-heart {
+    position: absolute;
+    pointer-events: none;
+    font-size: 20px;
+    animation: heartFloat 0.75s ease-out forwards;
+    line-height: 1;
+  }
+
   /* MODAL OVERLAY */
   .modal-overlay {
     position: fixed;
@@ -1154,9 +1191,21 @@ function renderGallery(paintings) {
     infoDiv.appendChild(details);
 
     if (p.sold) {
-      const soldNote = document.createElement('div');
-      soldNote.style.cssText = 'display:inline-flex;align-items:center;padding:10px 20px;border-radius:980px;border:1.5px solid #c7c7cc;color:#aeaeb2;font-size:13px;font-weight:500;font-family:var(--font);letter-spacing:0.02em;cursor:default;user-select:none;';
-      soldNote.textContent = 'In a private collection';
+      const soldNote = document.createElement('button');
+      soldNote.className = 'private-btn';
+      soldNote.innerHTML = '🔒 In a private collection';
+      soldNote.addEventListener('click', function(e) {
+        const rect = soldNote.getBoundingClientRect();
+        const hearts = ['❤️','🩷','❤️','💕','❤️'];
+        const h = document.createElement('span');
+        h.className = 'float-heart';
+        h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        const x = (e.clientX - rect.left) + (Math.random() * 20 - 10);
+        h.style.left = x + 'px';
+        h.style.bottom = '100%';
+        soldNote.appendChild(h);
+        h.addEventListener('animationend', () => h.remove());
+      });
       infoDiv.appendChild(soldNote);
     } else {
       const loveBtn = document.createElement('button');
