@@ -7,21 +7,28 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
 
-  const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
-  let sha = null;
-  let siteData = null;
+  const REPO = 'mindgame77/mooonarch';
+  const headers = { Authorization: 'token ' + token, 'User-Agent': 'mooonarch', 'Content-Type': 'application/json' };
 
+  // Read content via raw URL (no 1MB size limit)
+  let siteData = null;
   try {
-    const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, 'User-Agent': 'mooonarch' } });
-    if (getRes.ok) {
-      const f = await getRes.json();
-      sha = f.sha;
-      siteData = JSON.parse(Buffer.from(f.content, 'base64').toString('utf8'));
-    }
+    const rawRes = await fetch('https://raw.githubusercontent.com/' + REPO + '/main/data.json?v=' + Date.now());
+    if (rawRes.ok) siteData = await rawRes.json();
   } catch(e) {}
 
-  // Never commit if we couldn't load existing data — would wipe paintings
   if (!siteData) return { statusCode: 500, body: JSON.stringify({ error: 'Could not load existing data' }) };
+
+  // Get SHA via git tree API
+  let sha = null;
+  try {
+    const refRes = await fetch('https://api.github.com/repos/' + REPO + '/git/ref/heads/main', { headers });
+    const refData = await refRes.json();
+    const treeRes = await fetch('https://api.github.com/repos/' + REPO + '/git/trees/' + refData.object.sha, { headers });
+    const treeData = await treeRes.json();
+    const file = (treeData.tree || []).find(f => f.path === 'data.json');
+    if (file) sha = file.sha;
+  } catch(e) {}
 
   if (!siteData.leads) siteData.leads = [];
   siteData.leads.push({
@@ -39,10 +46,8 @@ exports.handler = async (event) => {
   const putBody = { message: 'new inquiry [skip ci]', content };
   if (sha) putBody.sha = sha;
 
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', 'User-Agent': 'mooonarch' },
-    body: JSON.stringify(putBody)
+  const res = await fetch('https://api.github.com/repos/' + REPO + '/contents/data.json', {
+    method: 'PUT', headers, body: JSON.stringify(putBody)
   });
 
   if (!res.ok) { const e = await res.json(); return { statusCode: 500, body: JSON.stringify({ error: e.message }) }; }

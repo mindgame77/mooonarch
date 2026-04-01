@@ -7,16 +7,25 @@ exports.handler = async (event) => {
   let data;
   try { data = JSON.parse(event.body); } catch(e) { return { statusCode: 400, body: 'Invalid JSON' }; }
 
-  const url = 'https://api.github.com/repos/mindgame77/mooonarch/contents/data.json';
-  let sha = null;
+  const REPO = 'mindgame77/mooonarch';
+  const headers = { Authorization: 'token ' + token, 'User-Agent': 'mooonarch', 'Content-Type': 'application/json' };
+
+  // Read content via raw URL (no 1MB size limit)
   let existingData = {};
   try {
-    const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, 'User-Agent': 'mooonarch' } });
-    if (getRes.ok) {
-      const f = await getRes.json();
-      sha = f.sha;
-      existingData = JSON.parse(Buffer.from(f.content, 'base64').toString('utf8'));
-    }
+    const rawRes = await fetch('https://raw.githubusercontent.com/' + REPO + '/main/data.json?v=' + Date.now());
+    if (rawRes.ok) existingData = await rawRes.json();
+  } catch(e) {}
+
+  // Get SHA via git tree API
+  let sha = null;
+  try {
+    const refRes = await fetch('https://api.github.com/repos/' + REPO + '/git/ref/heads/main', { headers });
+    const refData = await refRes.json();
+    const treeRes = await fetch('https://api.github.com/repos/' + REPO + '/git/trees/' + refData.object.sha, { headers });
+    const treeData = await treeRes.json();
+    const file = (treeData.tree || []).find(f => f.path === 'data.json');
+    if (file) sha = file.sha;
   } catch(e) {}
 
   // Guard: never overwrite real paintings with placeholders
@@ -34,20 +43,17 @@ exports.handler = async (event) => {
     const al = adminLeads.find(x => String(x.id) === String(sl.id));
     return al ? { ...sl, status: al.status } : sl;
   });
-  // Add any leads in admin that aren't on server yet (edge case)
   adminLeads.forEach(al => {
     if (!merged.find(x => String(x.id) === String(al.id))) merged.push(al);
   });
   data.leads = merged;
 
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
-  const body = { message: 'update site data [skip ci]', content };
-  if (sha) body.sha = sha;
+  const putBody = { message: 'update site data [skip ci]', content };
+  if (sha) putBody.sha = sha;
 
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', 'User-Agent': 'mooonarch' },
-    body: JSON.stringify(body)
+  const res = await fetch('https://api.github.com/repos/' + REPO + '/contents/data.json', {
+    method: 'PUT', headers, body: JSON.stringify(putBody)
   });
 
   if (!res.ok) { const e = await res.json(); return { statusCode: 500, body: JSON.stringify({ error: e.message }) }; }
