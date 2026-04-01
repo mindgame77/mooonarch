@@ -19,6 +19,14 @@ exports.handler = async (event) => {
     }
   } catch(e) {}
 
+  // Guard: never overwrite real paintings with placeholders
+  const isPlaceholder = p => p.images && p.images.some(img => img.includes('unsplash.com'));
+  const incomingAllPlaceholder = (data.paintings || []).every(isPlaceholder);
+  const existingHasReal = (existingData.paintings || []).some(p => !isPlaceholder(p));
+  if (incomingAllPlaceholder && existingHasReal) {
+    return { statusCode: 409, body: JSON.stringify({ error: 'Refusing to overwrite real paintings with placeholder data' }) };
+  }
+
   // Merge leads: keep all server leads, only update statuses from admin
   const serverLeads = existingData.leads || [];
   const adminLeads = data.leads || [];

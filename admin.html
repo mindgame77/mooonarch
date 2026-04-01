@@ -1138,23 +1138,28 @@ async function initAdmin() {
 
   window._adminPw = await DB.get('adminPassword') || '395476024';
 
-  const saved = await DB.get('paintings');
-  state.paintings = saved && saved.length ? JSON.parse(JSON.stringify(saved)) : JSON.parse(JSON.stringify(DEFAULT_PAINTINGS));
-
-  const savedAbout = await DB.get('about');
-  state.about = savedAbout ? JSON.parse(JSON.stringify(savedAbout)) : JSON.parse(JSON.stringify(DEFAULT_ABOUT));
-
-  const savedSettings = await DB.get('settings');
-  state.settings = savedSettings ? JSON.parse(JSON.stringify(savedSettings)) : {};
-
-  const savedIg = await DB.get('instagramPosts');
-  state.instagramPosts = savedIg ? savedIg : [];
-
-  // Leads always come from server
+  // Load from data.json (GitHub) — source of truth for all devices
   try {
     const res = await fetch('/data.json?v=' + Date.now());
-    if (res.ok) { const d = await res.json(); state.leads = d.leads || []; }
+    if (res.ok) {
+      const d = await res.json();
+      if (d.paintings && d.paintings.length) state.paintings = JSON.parse(JSON.stringify(d.paintings));
+      if (d.about) state.about = JSON.parse(JSON.stringify(d.about));
+      if (d.instagramPosts) state.instagramPosts = d.instagramPosts;
+      if (d.leads) state.leads = d.leads;
+      return;
+    }
   } catch(e) {}
+
+  // Fallback: IndexedDB (only if GitHub unreachable)
+  const saved = await DB.get('paintings');
+  if (saved && saved.length) state.paintings = JSON.parse(JSON.stringify(saved));
+  const savedAbout = await DB.get('about');
+  if (savedAbout) state.about = JSON.parse(JSON.stringify(savedAbout));
+  const savedSettings = await DB.get('settings');
+  if (savedSettings) state.settings = JSON.parse(JSON.stringify(savedSettings));
+  const savedIg = await DB.get('instagramPosts');
+  if (savedIg) state.instagramPosts = savedIg;
 }
 
 // ─── PASSWORD ─────────────────────────────────────────────────────────────────
