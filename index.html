@@ -1221,6 +1221,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
     if (!res.ok) throw new Error('Save failed');
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('thankYou').classList.add('visible');
+    btn.disabled = false;
+    btn.textContent = 'Send Interest';
+    document.getElementById('contactForm').reset();
   } catch (err) {
     console.error('Form error:', err);
     alert('Something went wrong. Please try again or contact us directly.');
