@@ -1792,7 +1792,7 @@ async function uploadImageFile(file) {
   const dataUrl = await compressImage(file, 1600, 0.88);
   const base64 = dataUrl.split(',')[1];
   const filename = 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2,5) + '.jpg';
-  const res = await fetch('/.netlify/functions/upload-image', {
+  const res = await fetch('/api/upload-image', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ filename, content: base64 })
@@ -1880,7 +1880,7 @@ async function saveAll() {
 }
 
 async function saveToGitHub(data) {
-  const res = await fetch('/.netlify/functions/save-data', {
+  const res = await fetch('/api/save-data', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)

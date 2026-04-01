@@ -1213,7 +1213,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
   btn.textContent = 'Sending\u2026';
 
   try {
-    const res = await fetch('/.netlify/functions/save-lead', {
+    const res = await fetch('/api/save-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ painting: currentPaintingName, name: fullName, email, phone: phone || '', country })
