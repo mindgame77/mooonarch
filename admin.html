@@ -908,7 +908,10 @@
 
   <!-- REQUESTS TAB -->
   <div class="tab-content" id="tab-requests">
-    <div class="page-title">Requests</div>
+    <div class="page-title" style="display:flex;align-items:center;justify-content:space-between;">
+      Requests
+      <button id="refreshRequestsBtn" style="font-size:13px;padding:7px 16px;border:1.5px solid var(--light-gray);border-radius:10px;background:white;cursor:pointer;font-family:var(--font);color:var(--dark);">↻ Refresh</button>
+    </div>
     <div class="crm-stats">
       <div class="crm-stat-card">
         <div class="crm-stat-value" id="statTotal">0</div>
@@ -1204,12 +1207,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'requests') {
-      // Always re-fetch latest leads when opening this tab
-      try {
-        const res = await fetch('/data.json?v=' + Date.now());
-        if (res.ok) { const d = await res.json(); state.leads = d.leads || []; }
-      } catch(e) {}
-      renderRequestsTab();
+      await refreshLeads();
     }
   });
 });
@@ -1902,6 +1900,20 @@ function showToast(msg) {
 }
 
 // ─── REQUESTS TAB ─────────────────────────────────────────────────────────────
+async function refreshLeads() {
+  const btn = document.getElementById('refreshRequestsBtn');
+  if (btn) { btn.textContent = '↻ Loading…'; btn.disabled = true; }
+  try {
+    // Fetch directly from GitHub raw URL — always up to date, bypasses Netlify cache
+    const res = await fetch('https://raw.githubusercontent.com/mindgame77/mooonarch/main/data.json?v=' + Date.now());
+    if (res.ok) { const d = await res.json(); state.leads = d.leads || []; }
+  } catch(e) {}
+  renderRequestsTab();
+  if (btn) { btn.textContent = '↻ Refresh'; btn.disabled = false; }
+}
+
+document.getElementById('refreshRequestsBtn').addEventListener('click', refreshLeads);
+
 function renderRequestsTab() {
   const leads = state.leads || [];
   const now = new Date();
