@@ -2,79 +2,76 @@
   "paintings": [
     {
       "id": 1,
-      "name": "Brian",
-      "price": "$3,000",
-      "medium": "Acrilyc on canvas",
+      "name": "Superhero",
+      "price": "$21,000",
+      "medium": "Acrylic on linen",
       "size": "24' × 36'",
-      "music": "",
+      "music": "Jay-Z \"99 problems\"",
       "edition": "10,000",
-      "number": "88",
+      "number": "32-33",
       "sold": false,
-      "description": "Our friend Brian - the most stylish person in SF. His home, his car, his vibe - everything’s iconic. This Mooonarch is a tribute to how much we love him. #mooonarch #art #sanfrancisco",
+      "description": "A living triptych: two canvases and the woman standing between them. It begins with the Beekeeper, surrounded by 99 bees, offering flowers to the one who watches. But when the right woman is loved, she transforms him into the Aztec Warrior - a reminder that who we become is shaped by who we protect.",
       "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775078548032_nak0t.jpg",
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775078561632_hqk7n.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081407/IMG_2410_rfb3yu.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081423/IMG_2450_alpvds.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084915/IMG_2495_zrby6g.png"
       ],
-      "video": "",
-      "city": ""
+      "video": ""
     },
     {
       "id": 2,
-      "name": "Infinite Blue",
-      "price": "$3,100",
+      "name": "Zero to One",
+      "price": "$3,000",
       "medium": "Acrylic on linen",
-      "size": "90 × 70 cm",
+      "size": "24' × 36'",
       "music": "",
       "edition": "10,000",
-      "number": "37",
+      "number": "28",
       "sold": false,
-      "description": "Layers of cobalt and cerulean build a depth that feels oceanic. A meditation on stillness, drawn from a single morning at the water's edge.",
+      "description": "Peter Thiel’s Zero to One focuses on creating entirely new things rather than iterating on existing ones.",
       "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1774994372796_mwib9.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081431/IMG_2556_v2udxu.jpg"
       ],
-      "video": "",
-      "city": ""
+      "video": ""
     },
     {
       "id": 3,
-      "name": "First Snow",
-      "price": "$1,800",
-      "medium": "Oil on panel",
-      "size": "50 × 50 cm",
-      "music": "",
+      "name": "Creation of Society",
+      "price": "$3000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "music": "Balaji Srinivasan for Lex Fridman Podcast",
       "edition": "10,000",
-      "number": "37",
+      "number": "30",
       "sold": false,
-      "description": "The hush that falls with the first snow of the season — white on white, shadow on shadow. A quiet study in restraint and presence.",
+      "description": "The Nebra Sky Disk didn't just track the sun; it changed history by giving humanity control over time. In this piece, Mooonarch carries the foundation of early society - ceremonial power, agriculture, and commerce. It’s a tribute to the very first builders who looked up at the sky and decided to map the future.",
       "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1774993853730_wlpdd.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081346/IMG_2374_1_1_kynwwr.jpg"
       ],
-      "video": "",
-      "city": ""
+      "video": ""
     },
     {
       "id": 4,
-      "name": "",
-      "price": "",
-      "medium": "",
-      "size": "",
+      "name": "Initium Novum",
+      "price": "3000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
       "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775011575318_fxffi.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081449/Screenshot_2026-03-31_at_7.49.22_PM_qzizzz.png"
       ],
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": false
     },
     {
       "id": 5,
       "name": "",
       "price": "",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
       "images": [
@@ -83,15 +80,14 @@
       "music": "",
       "number": "",
       "video": "",
-      "sold": true,
-      "city": "Austin,Tx"
+      "sold": false
     },
     {
       "id": 6,
       "name": "",
       "price": "",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
       "images": [
@@ -100,15 +96,14 @@
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": false
     },
     {
       "id": 7,
       "name": "",
       "price": "",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
       "images": [
@@ -117,38 +112,37 @@
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": false
     },
     {
       "id": 8,
       "name": "",
       "price": "",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
-      "images": [],
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084902/IMG_2336_fgx7zt.jpeg"
+      ],
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": false
     },
     {
       "id": 9,
       "name": "",
       "price": "",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "",
       "images": [],
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": false
     }
   ],
   "about": {
