@@ -1086,7 +1086,8 @@ function renderGallery(paintings) {
     if (p.sold) {
       const overlay = document.createElement('div');
       overlay.className = 'sold-overlay';
-      overlay.innerHTML = '<div class="sold-overlay-line"></div><div class="sold-overlay-text">Found its home.</div><div class="sold-overlay-line"></div>';
+      const homeText = p.city ? 'Found its home in ' + p.city + '.' : 'Found its home.';
+      overlay.innerHTML = '<div class="sold-overlay-line"></div><div class="sold-overlay-text">' + homeText + '</div><div class="sold-overlay-line"></div>';
       paintingMedia.appendChild(overlay);
     }
 

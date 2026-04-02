@@ -336,6 +336,40 @@
     color: var(--accent);
   }
 
+  .city-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.25s ease, opacity 0.2s ease;
+  }
+  .city-row.visible {
+    max-height: 48px;
+    opacity: 1;
+  }
+  .city-row label {
+    font-size: 13px;
+    color: var(--mid-gray);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .city-row input {
+    flex: 1;
+    font-size: 14px;
+    font-family: var(--font);
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 7px 12px;
+    background: var(--white);
+    color: var(--dark);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .city-row input:focus { border-color: var(--dark); }
+
   .card-body {}
 
   /* FIELDS */
@@ -1514,6 +1548,25 @@ function buildPaintingCard(p, idx) {
   soldLabel.appendChild(soldSpan);
   soldRow.appendChild(soldLabel);
 
+  // City input (shown only when sold is checked)
+  const cityRow = document.createElement('div');
+  cityRow.className = 'city-row' + (p.sold ? ' visible' : '');
+  const cityLabel = document.createElement('label');
+  cityLabel.textContent = 'Found its home in';
+  const cityInput = document.createElement('input');
+  cityInput.type = 'text';
+  cityInput.setAttribute('data-field', 'city');
+  cityInput.placeholder = 'Miami, Amsterdam…';
+  cityInput.value = p.city || '';
+  cityInput.addEventListener('mousedown', e => e.stopPropagation());
+  cityRow.appendChild(cityLabel);
+  cityRow.appendChild(cityInput);
+  soldRow.appendChild(cityRow);
+
+  soldCheck.addEventListener('change', () => {
+    cityRow.classList.toggle('visible', soldCheck.checked);
+  });
+
   body.appendChild(row1);
   body.appendChild(row2);
   body.appendChild(row3);
@@ -1831,6 +1884,8 @@ async function saveAll() {
     if (videoInp)  p.video       = videoInp.value.trim();
     const soldInp  = card.querySelector('[data-field="sold"]');
     if (soldInp)   p.sold        = soldInp.checked;
+    const cityInp  = card.querySelector('[data-field="city"]');
+    if (cityInp)   p.city        = cityInp.value.trim();
   });
 
   // 2. Collect about data
