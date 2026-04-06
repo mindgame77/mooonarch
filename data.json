@@ -89,17 +89,17 @@
     },
     {
       "id": 6,
-      "name": "",
-      "price": "",
+      "name": "Adam",
+      "price": "7,000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
-      "description": "",
+      "description": "This is Adam - the first man walking through the jungle, surrounded by the 7 deadly sins hidden in the details. When you look at it, you get to choose your perspective. You might relate to someone hiding in the leaves, scared of him. You might see yourself as Adam, the warrior carrying the fire. Or maybe you're the predator looking at your next prey. How you see it is always your choice.",
       "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775011776275_gxrc1.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085143/Screenshot_2026-04-01_at_4.09.41_PM_x7urkv.png"
       ],
-      "music": "",
-      "number": "",
+      "music": "Yowzers - Ben LaMar Gay",
+      "number": "29",
       "video": "",
       "sold": false,
       "city": ""
@@ -140,10 +140,44 @@
     },
     {
       "id": 9,
-      "name": "",
-      "price": "",
+      "name": "America Dream",
+      "price": "7,000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
+      "year": "2026",
+      "description": "This piece is a tribute to everyone chasing their dreams in America.\nYes, America is The Happiest Place on Earth, but one should always remember that hard work, hard work, and once again hard work must be followed by party hard.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085139/Screenshot_2026-04-01_at_3.54.03_PM_lzcqpg.png"
+      ],
+      "music": "America, F*** Yeah - Team America OST",
+      "number": "19",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 10,
+      "name": "Courage Attack",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "",
+      "year": "2026",
+      "description": "If a panic attack can hit you out of nowhere, so can a courage attack.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775082837/IMG_2909_wuwxuw.jpg"
+      ],
+      "music": "Door of Cosmos - Armonica Cosmos Mix",
+      "number": "10",
+      "video": "",
+      "sold": true,
+      "city": "Hillsborough, CA"
+    },
+    {
+      "id": 11,
+      "name": "",
+      "price": "",
+      "medium": "",
+      "size": "",
       "year": "2026",
       "description": "",
       "images": [],
