@@ -279,8 +279,8 @@
       "music": "Ocean Waves",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": true,
+      "city": "Santa Cruz, CA"
     },
     {
       "id": 17,
@@ -331,8 +331,8 @@
       "music": "",
       "number": "26",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": true,
+      "city": "San Francisco"
     },
     {
       "id": 20,
