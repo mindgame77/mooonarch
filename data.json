@@ -307,7 +307,7 @@
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
-      "description": "",
+      "description": "An astronaut offering flowers. A simple metaphor for a friend who brings life and color into the coldest, emptiest spaces.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085073/IMG_4649_fcg4lw.jpeg"
       ],
@@ -319,17 +319,17 @@
     },
     {
       "id": 19,
-      "name": "",
-      "price": "",
+      "name": "I’m Fine",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
-      "description": "",
+      "description": "Visual anchors from the future to remind of something important.\nThis one is meant to remind my friend who he truly is.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084861/IMG_1356_rqhmve.jpeg"
       ],
       "music": "",
-      "number": "",
+      "number": "26",
       "video": "",
       "sold": false,
       "city": ""
@@ -337,11 +337,11 @@
     {
       "id": 20,
       "name": "",
-      "price": "",
+      "price": "♾️",
       "medium": "",
       "size": "",
       "year": "2026",
-      "description": "",
+      "description": "Meet Mooonopoly Man. He’s here with a simple, grounded reminder: the most valuable things in this world will always be for free. Everything else is just a game we play.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775517569/IMG_2683_lqhmuw.jpeg",
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084871/IMG_2330_fvsvbf.jpeg"
@@ -354,12 +354,12 @@
     },
     {
       "id": 21,
-      "name": "",
-      "price": "",
+      "name": "Warrior",
+      "price": "♾️",
       "medium": "",
       "size": "",
       "year": "2026",
-      "description": "",
+      "description": "Inspired by photo shoot of out friend.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775517622/IMG_8138_ci1px9.jpg"
       ],
