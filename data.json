@@ -166,7 +166,8 @@
       "year": "2026",
       "description": "If a panic attack can hit you out of nowhere, so can a courage attack.",
       "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775082837/IMG_2909_wuwxuw.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775082837/IMG_2909_wuwxuw.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085099/IMG_8644_qtettq.jpeg"
       ],
       "music": "Door of Cosmos - Armonica Cosmos Mix",
       "number": "10",
@@ -247,15 +248,85 @@
     },
     {
       "id": 15,
-      "name": "",
-      "price": "",
-      "medium": "",
-      "size": "",
+      "name": "Wine",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
-      "description": "",
+      "description": "Good times don't ask for permission, and they don't need a reason.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.50_np769w.jpg",
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.47_yfqviv.jpg"
+      ],
+      "music": "A$AP Rocky - Everyday ft. Rod Stewart, Miguel, Mark Ronson",
+      "number": "",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 16,
+      "name": "Serfer",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "A perfect snapshot of one day in the life of one incredible family.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516505/photo_2026-04-06_15.59.54_i5werl.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516505/photo_2026-04-06_15.59.52_mzotei.jpg"
+      ],
+      "music": "Ocean Waves",
+      "number": "",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 17,
+      "name": "Breath in, Breath out",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "The message 'Breathe in, breathe out' is only visible when you look through the red glasses. It’s a literal reminder that the thing capable of changing your life is often right in front of you - you just need to change your perspective to see it.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085113/IMG_9008_toheg1.jpeg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085120/IMG_9009_i4nmu6.jpeg"
+      ],
+      "music": "",
+      "number": "",
+      "video": "",
+      "sold": true,
+      "city": "Hillsborough, CA"
+    },
+    {
+      "id": 18,
+      "name": "Astronaut in flowers",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085073/IMG_4649_fcg4lw.jpeg"
+      ],
+      "music": "",
+      "number": "",
+      "video": "",
+      "sold": true,
+      "city": "Lisbon, Portugal"
+    },
+    {
+      "id": 19,
+      "name": "",
+      "price": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084861/IMG_1356_rqhmve.jpeg"
       ],
       "music": "",
       "number": "",
@@ -264,19 +335,39 @@
       "city": ""
     },
     {
-      "id": 16,
+      "id": 20,
       "name": "",
       "price": "",
       "medium": "",
       "size": "",
       "year": "2026",
       "description": "",
-      "images": [],
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775517569/IMG_2683_lqhmuw.jpeg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084871/IMG_2330_fvsvbf.jpeg"
+      ],
       "music": "",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": true,
+      "city": "Los Angeles"
+    },
+    {
+      "id": 21,
+      "name": "",
+      "price": "",
+      "medium": "",
+      "size": "",
+      "year": "2026",
+      "description": "",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775517622/IMG_8138_ci1px9.jpg"
+      ],
+      "music": "",
+      "number": "",
+      "video": "",
+      "sold": true,
+      "city": "San Francisco"
     }
   ],
   "about": {
