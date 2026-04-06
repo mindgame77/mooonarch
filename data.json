@@ -130,7 +130,8 @@
       "year": "2026",
       "description": "You see all that text in the background? That’s literally the first four chapters of the Bible—the creation of the universe. And standing right in the middle of all that massive, cosmic history is Mooonarch holding a sign that says, 'I believe in you, dummy.' It’s basically the universe looking at you, seeing you doubt yourself, and saying: 'I created everything, and I’m betting on you. Stop overthinking it.'",
       "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775084902/IMG_2336_fgx7zt.jpeg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.43_e1wwe0.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775515509/photo_2026-04-06_15.37.34_mjzgwj.jpg"
       ],
       "music": "",
       "number": "25",
@@ -147,7 +148,8 @@
       "year": "2026",
       "description": "This piece is a tribute to everyone chasing their dreams in United States.\nYes, US is The Happiest Place on Earth, but one should always remember that hard work, hard work, and once again hard work must be followed by party hard.",
       "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085139/Screenshot_2026-04-01_at_3.54.03_PM_lzcqpg.png"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085139/Screenshot_2026-04-01_at_3.54.03_PM_lzcqpg.png",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.45_ku1kiv.jpg"
       ],
       "music": "America, F*** Yeah - Team America OST",
       "number": "19",
@@ -245,6 +247,24 @@
     },
     {
       "id": 15,
+      "name": "",
+      "price": "",
+      "medium": "",
+      "size": "",
+      "year": "2026",
+      "description": "",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.50_np769w.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775516504/photo_2026-04-06_15.59.47_yfqviv.jpg"
+      ],
+      "music": "",
+      "number": "",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 16,
       "name": "",
       "price": "",
       "medium": "",
