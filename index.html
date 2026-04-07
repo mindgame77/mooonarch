@@ -6,10 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artefacts — Mooonarch</title>
 <link rel="icon" href="/favicon.png" type="image/png">
-<meta name="description" content="Explore original paintings by Mooonarch — a collection of unique artefacts available for inquiry.">
+<meta name="description" content="I don't paint for everyone to like my art. I paint so you can find the one Mooonarch that changes your life. Explore the collection of original artefacts.">
 <meta property="og:title" content="Artefacts — Mooonarch">
-<meta property="og:description" content="Explore original paintings by Mooonarch — a collection of unique artefacts available for inquiry.">
+<meta property="og:description" content="I don't paint for everyone to like my art. I paint so you can find the one Mooonarch that changes your life. Explore the collection of original artefacts.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://mooonarch.com/images/img_1774993853730_wlpdd.jpg">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -834,6 +835,10 @@
       <h2>I Love This</h2>
       <p class="modal-subtitle">Share your details and we'll reach out about acquiring this work.</p>
       <form id="contactForm" novalidate>
+        <div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name">
@@ -1254,6 +1259,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const email    = document.getElementById('email').value.trim();
   const phone    = document.getElementById('phone').value.trim();
   const country  = document.getElementById('country').value;
+
+  // Honeypot: bots fill hidden fields, humans don't
+  if (document.getElementById('website').value) return;
 
   if (!fullName || !email || !country) {
     const missing = [];
