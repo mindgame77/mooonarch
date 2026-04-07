@@ -54,6 +54,23 @@
       "city": ""
     },
     {
+      "id": 22,
+      "name": "on Fire",
+      "price": "3,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Dedicated to the unbreakable spirit of the Iranian people. This piece captures the raw, fearless confidence of a nation fighting to be entirely itself",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775522354/IMG_2531_n9ue9j.jpg"
+      ],
+      "music": "Seven Nation Army by The White Stripes",
+      "number": "34",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
       "id": 4,
       "name": "Initium Novum",
       "price": "3,000",
@@ -368,23 +385,6 @@
       "video": "",
       "sold": true,
       "city": "San Francisco"
-    },
-    {
-      "id": 22,
-      "name": "on Fire",
-      "price": "3,000",
-      "medium": "Acrylic on linen",
-      "size": "24' × 36'",
-      "year": "2026",
-      "description": "Dedicated to the unbreakable spirit of the Iranian people. This piece captures the raw, fearless confidence of a nation fighting to be entirely itself",
-      "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775522354/IMG_2531_n9ue9j.jpg"
-      ],
-      "music": "Seven Nation Army by The White Stripes",
-      "number": "34",
-      "video": "",
-      "sold": false,
-      "city": ""
     }
   ],
   "about": {
