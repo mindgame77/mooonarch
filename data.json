@@ -20,21 +20,21 @@
       "city": ""
     },
     {
-      "id": 2,
-      "name": "Zero to One",
-      "price": "$3,000",
+      "id": 5,
+      "name": "Keith Moooring",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
-      "music": "",
-      "edition": "10,000",
-      "number": "28",
-      "sold": false,
-      "description": "Peter Thiel’s Zero to One focuses on creating entirely new things rather than iterating on existing ones.",
+      "year": "2026",
+      "description": "The world tells you to sit still and be serious; Mooonarch refuses. This painting is a daily command to lose yourself in the rhythm. It’s a tribute to the pure, childlike freedom of dancing when no one else is in the room.",
       "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081431/IMG_2556_v2udxu.jpg"
+        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775011594009_zdhvf.jpg"
       ],
+      "music": "",
+      "number": "35",
       "video": "",
-      "city": ""
+      "sold": true,
+      "city": "Austin, TX"
     },
     {
       "id": 3,
@@ -71,23 +71,6 @@
       "city": ""
     },
     {
-      "id": 5,
-      "name": "Keith Moooring",
-      "price": "♾️",
-      "medium": "Acrylic on linen",
-      "size": "24' × 36'",
-      "year": "2026",
-      "description": "The world tells you to sit still and be serious; Mooonarch refuses. This painting is a daily command to lose yourself in the rhythm. It’s a tribute to the pure, childlike freedom of dancing when no one else is in the room.",
-      "images": [
-        "https://raw.githubusercontent.com/mindgame77/mooonarch/main/images/img_1775011594009_zdhvf.jpg"
-      ],
-      "music": "",
-      "number": "35",
-      "video": "",
-      "sold": true,
-      "city": "Austin, TX"
-    },
-    {
       "id": 6,
       "name": "Adam",
       "price": "♾️",
@@ -101,7 +84,24 @@
       "music": "Yowzers - Ben LaMar Gay",
       "number": "29",
       "video": "",
+      "sold": true,
+      "city": "Bay Area, CA"
+    },
+    {
+      "id": 2,
+      "name": "Zero to One",
+      "price": "$3,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "music": "",
+      "edition": "10,000",
+      "number": "28",
       "sold": false,
+      "description": "Peter Thiel’s Zero to One focuses on creating entirely new things rather than iterating on existing ones.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081431/IMG_2556_v2udxu.jpg"
+      ],
+      "video": "",
       "city": ""
     },
     {
