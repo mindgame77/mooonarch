@@ -74,6 +74,24 @@
       "city": ""
     },
     {
+      "id": 23,
+      "name": "Angel",
+      "price": "5,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "It’s no coincidence that a biblically accurate angel and the structure of an atom look identical; this Mooonarch proves that science and faith are just two different languages describing the exact same magic.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.18_iooigu.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.20_q0ohvj.jpg"
+      ],
+      "music": "",
+      "number": "38",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
       "id": 4,
       "name": "Initium Novum",
       "price": "3,000",
@@ -196,6 +214,23 @@
       "city": "San Francisco"
     },
     {
+      "id": 11,
+      "name": "Under Influence",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Hey Lenny,\nBig fan here! Last week, I listened to your podcast with Graham Weaver, and it was truly inspiring - it had such a profound impact on me that I created a painting dedicated to your podcast.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085129/Screenshot_2026-04-01_at_3.53.27_PM_tq173q.png"
+      ],
+      "music": "Graham Weaver for Lenny's Podcast",
+      "number": "17",
+      "video": "",
+      "sold": true,
+      "city": "San Francisco"
+    },
+    {
       "id": 10,
       "name": "Courage Attack",
       "price": "♾️",
@@ -212,23 +247,6 @@
       "video": "",
       "sold": true,
       "city": "Hillsborough, CA"
-    },
-    {
-      "id": 11,
-      "name": "Under Influence",
-      "price": "♾️",
-      "medium": "Acrylic on linen",
-      "size": "24' × 36'",
-      "year": "2026",
-      "description": "Hey Lenny,\nBig fan here! Last week, I listened to your podcast with Graham Weaver, and it was truly inspiring - it had such a profound impact on me that I created a painting dedicated to your podcast.",
-      "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775085129/Screenshot_2026-04-01_at_3.53.27_PM_tq173q.png"
-      ],
-      "music": "Graham Weaver for Lenny's Podcast",
-      "number": "17",
-      "video": "",
-      "sold": true,
-      "city": "San Francisco"
     },
     {
       "id": 13,
@@ -388,24 +406,6 @@
       "video": "",
       "sold": true,
       "city": "San Francisco"
-    },
-    {
-      "id": 23,
-      "name": "Angel",
-      "price": "5,000",
-      "medium": "Acrylic on linen",
-      "size": "24' × 36'",
-      "year": "2026",
-      "description": "It’s no coincidence that a biblically accurate angel and the structure of an atom look identical; this Mooonarch proves that science and faith are just two different languages describing the exact same magic.",
-      "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.18_iooigu.jpg",
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.20_q0ohvj.jpg"
-      ],
-      "music": "",
-      "number": "38",
-      "video": "",
-      "sold": false,
-      "city": ""
     }
   ],
   "about": {
