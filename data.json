@@ -119,7 +119,7 @@
       "number": "37",
       "video": "",
       "sold": true,
-      "city": "Los Angeles"
+      "city": "Santa Monica, CA"
     },
     {
       "id": 8,
@@ -336,9 +336,9 @@
     },
     {
       "id": 20,
-      "name": "",
+      "name": "Mooonopoly Man",
       "price": "♾️",
-      "medium": "",
+      "medium": "Acrylic on linen",
       "size": "",
       "year": "2026",
       "description": "Meet Mooonopoly Man. He’s here with a simple, grounded reminder: the most valuable things in this world will always be for free. Everything else is just a game we play.",
@@ -350,24 +350,41 @@
       "number": "",
       "video": "",
       "sold": true,
-      "city": "Los Angeles"
+      "city": "Santa Monica, CA"
     },
     {
       "id": 21,
       "name": "Warrior",
       "price": "♾️",
-      "medium": "",
-      "size": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
       "year": "2026",
       "description": "Inspired by photo shoot of out friend.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775517622/IMG_8138_ci1px9.jpg"
       ],
       "music": "",
-      "number": "",
+      "number": "09",
       "video": "",
       "sold": true,
       "city": "San Francisco"
+    },
+    {
+      "id": 22,
+      "name": "on Fire",
+      "price": "3,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Dedicated to the unbreakable spirit of the Iranian people. This piece captures the raw, fearless confidence of a nation fighting to be entirely itself",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775522354/IMG_2531_n9ue9j.jpg"
+      ],
+      "music": "Seven Nation Army by The White Stripes",
+      "number": "34",
+      "video": "",
+      "sold": false,
+      "city": ""
     }
   ],
   "about": {
