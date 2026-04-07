@@ -48,7 +48,8 @@
       "sold": false,
       "description": "The Nebra Sky Disk didn't just track the sun; it changed history by giving humanity control over time. In this piece, Mooonarch carries the foundation of early society - ceremonial power, agriculture, and commerce. It’s a tribute to the very first builders who looked up at the sky and decided to map the future.",
       "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081346/IMG_2374_1_1_kynwwr.jpg"
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.08_awgje5.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531146/photo_2026-04-06_20.05.11_icv2it.jpg"
       ],
       "video": "",
       "city": ""
@@ -82,7 +83,7 @@
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081449/Screenshot_2026-03-31_at_7.49.22_PM_qzizzz.png"
       ],
       "music": "",
-      "number": "",
+      "number": "27",
       "video": "",
       "sold": false,
       "city": ""
@@ -349,7 +350,7 @@
       "number": "26",
       "video": "",
       "sold": true,
-      "city": "San Francisco"
+      "city": "Kyiv, Ukraine"
     },
     {
       "id": 20,
@@ -385,6 +386,24 @@
       "video": "",
       "sold": true,
       "city": "San Francisco"
+    },
+    {
+      "id": 23,
+      "name": "Angel",
+      "price": "5,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "It’s no coincidence that a biblically accurate angel and the structure of an atom look identical; this Mooonarch proves that science and faith are just two different languages describing the exact same magic.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.18_iooigu.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775531147/photo_2026-04-06_20.05.20_q0ohvj.jpg"
+      ],
+      "music": "",
+      "number": "38",
+      "video": "",
+      "sold": false,
+      "city": ""
     }
   ],
   "about": {
