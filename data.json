@@ -140,6 +140,24 @@
       "city": "Santa Monica, CA"
     },
     {
+      "id": 12,
+      "name": "Jean Michel Mooosquiat",
+      "price": "7,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Sometimes you just don't know what to do. But if you trust the path you're taking, you might just look over and see a kid on a playground launching a rocket. This painting is about trusting the process.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081457/Screenshot_2026-03-31_at_7.45.48_PM_jx2ftx.png",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775515523/photo_2026-04-06_15.37.53_c3di8t.jpg"
+      ],
+      "music": "",
+      "number": "36",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
       "id": 8,
       "name": "I Believe in you, Bummy",
       "price": "7,000",
@@ -211,24 +229,6 @@
       "city": "San Francisco"
     },
     {
-      "id": 12,
-      "name": "Jean Michel Mooosquiat",
-      "price": "7,000",
-      "medium": "Acrylic on linen",
-      "size": "24' × 36'",
-      "year": "2026",
-      "description": "Sometimes you just don't know what to do. But if you trust the path you're taking, you might just look over and see a kid on a playground launching a rocket. This painting is about trusting the process.",
-      "images": [
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775081457/Screenshot_2026-03-31_at_7.45.48_PM_jx2ftx.png",
-        "https://res.cloudinary.com/dr3pxmced/image/upload/v1775515523/photo_2026-04-06_15.37.53_c3di8t.jpg"
-      ],
-      "music": "",
-      "number": "36",
-      "video": "",
-      "sold": false,
-      "city": ""
-    },
-    {
       "id": 13,
       "name": "Mr. Ha",
       "price": "♾️",
@@ -279,8 +279,8 @@
       "music": "A$AP Rocky - Everyday ft. Rod Stewart, Miguel, Mark Ronson",
       "number": "",
       "video": "",
-      "sold": false,
-      "city": ""
+      "sold": true,
+      "city": "Los Angeles"
     },
     {
       "id": 16,
