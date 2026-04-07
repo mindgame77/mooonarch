@@ -266,39 +266,31 @@
 
   .delete-painting-btn:hover { background: #fff0ef; }
 
-  /* ORDER ARROWS */
-  .order-btns {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  /* DRAG HANDLE */
+  .drag-handle {
     flex-shrink: 0;
     margin-right: 10px;
-  }
-
-  .order-btn {
-    background: none;
-    border: 1px solid var(--light-gray);
-    border-radius: 4px;
-    width: 26px;
-    height: 22px;
-    cursor: pointer;
-    font-size: 10px;
+    cursor: grab;
     color: var(--mid-gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-    font-family: var(--font);
+    font-size: 18px;
     line-height: 1;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+    user-select: none;
   }
 
-  .order-btn:hover:not(:disabled) {
-    background: var(--off-white);
-    border-color: var(--dark);
-    color: var(--dark);
+  .drag-handle:hover { color: var(--dark); background: var(--off-white); }
+  .drag-handle:active { cursor: grabbing; }
+
+  .painting-card.drag-over {
+    border-color: var(--accent);
+    background: #fffdf7;
   }
 
-  .order-btn:disabled { opacity: 0.2; cursor: default; }
+  .painting-card.dragging {
+    opacity: 0.4;
+  }
 
   /* SOLD TOGGLE */
   .sold-toggle-row {
@@ -1294,38 +1286,43 @@ function buildPaintingCard(p, idx) {
   actions.appendChild(collapseBtn);
   actions.appendChild(deleteBtn);
 
-  const orderBtns = document.createElement('div');
-  orderBtns.className = 'order-btns';
+  const dragHandle = document.createElement('div');
+  dragHandle.className = 'drag-handle';
+  dragHandle.title = 'Drag to reorder';
+  dragHandle.innerHTML = '&#8942;';
 
-  const upBtn = document.createElement('button');
-  upBtn.className = 'order-btn';
-  upBtn.type = 'button';
-  upBtn.title = 'Move up';
-  upBtn.innerHTML = '&#9650;';
-  upBtn.disabled = (idx === 0);
-  upBtn.addEventListener('click', () => {
-    const i = state.paintings.findIndex(x => x.id === p.id);
-    if (i <= 0) return;
-    [state.paintings[i - 1], state.paintings[i]] = [state.paintings[i], state.paintings[i - 1]];
+  card.draggable = true;
+  card.addEventListener('dragstart', e => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(p.id));
+    setTimeout(() => card.classList.add('dragging'), 0);
+  });
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.painting-card').forEach(c => c.classList.remove('drag-over'));
+  });
+  card.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    document.querySelectorAll('.painting-card').forEach(c => c.classList.remove('drag-over'));
+    card.classList.add('drag-over');
+  });
+  card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+  card.addEventListener('drop', e => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    const fromId = parseInt(e.dataTransfer.getData('text/plain'));
+    const toId = p.id;
+    if (fromId === toId) return;
+    const fromIdx = state.paintings.findIndex(x => x.id === fromId);
+    const toIdx = state.paintings.findIndex(x => x.id === toId);
+    if (fromIdx === -1 || toIdx === -1) return;
+    const [moved] = state.paintings.splice(fromIdx, 1);
+    state.paintings.splice(toIdx, 0, moved);
     renderPaintingsTab();
   });
 
-  const downBtn = document.createElement('button');
-  downBtn.className = 'order-btn';
-  downBtn.type = 'button';
-  downBtn.title = 'Move down';
-  downBtn.innerHTML = '&#9660;';
-  downBtn.disabled = (idx === state.paintings.length - 1);
-  downBtn.addEventListener('click', () => {
-    const i = state.paintings.findIndex(x => x.id === p.id);
-    if (i >= state.paintings.length - 1) return;
-    [state.paintings[i], state.paintings[i + 1]] = [state.paintings[i + 1], state.paintings[i]];
-    renderPaintingsTab();
-  });
-
-  orderBtns.appendChild(upBtn);
-  orderBtns.appendChild(downBtn);
-  header.appendChild(orderBtns);
+  header.appendChild(dragHandle);
   header.appendChild(title);
   header.appendChild(actions);
   card.appendChild(header);
@@ -1676,11 +1673,11 @@ document.getElementById('addPaintingBtn').addEventListener('click', () => {
     description: '',
     images: []
   };
-  state.paintings.push(newPainting);
+  state.paintings.unshift(newPainting);
   const container = document.getElementById('paintingsContainer');
-  container.appendChild(buildPaintingCard(newPainting, state.paintings.length - 1));
+  container.prepend(buildPaintingCard(newPainting, 0));
   // Scroll to new card
-  container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  container.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // ─── RENDER ABOUT TAB ─────────────────────────────────────────────────────────
