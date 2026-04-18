@@ -1202,6 +1202,7 @@ async function login(enteredPw) {
     renderAboutTab();
     renderSettingsTab();
     renderRequestsTab();
+    refreshLeads();
   } else {
     const inp = document.getElementById('pwInput');
     inp.style.animation = 'shake 0.4s ease';
@@ -1961,7 +1962,7 @@ async function refreshLeads() {
   const btn = document.getElementById('refreshRequestsBtn');
   if (btn) { btn.textContent = '↻ Loading…'; btn.disabled = true; }
   try {
-    const res = await fetch('/api/get-leads');
+    const res = await fetch('/api/get-leads?v=' + Date.now());
     if (res.ok) { const d = await res.json(); state.leads = d.leads || []; }
   } catch(e) {}
   renderRequestsTab();
