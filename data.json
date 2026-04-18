@@ -1,6 +1,24 @@
 {
   "paintings": [
     {
+      "id": 24,
+      "name": "Heracles",
+      "price": "♾️",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "This is my take on the 12 Labors of Hercules and what it actually takes to solve impossible problems when trying to change the world. It’s not about following the rules or doing things perfectly; it’s about having the raw, stubborn focus, stare down the chaos, and get the job done by any means necessary. Because at the end of the day, no one cares how messy the process was if you deliver a result that makes everyone happy.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1776485454/IMG_4360_cjrx7z.png",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1776485457/IMG_4293_trmgxn.jpg"
+      ],
+      "music": "Where Is My Mind by Pixies",
+      "number": "40",
+      "video": "",
+      "sold": true,
+      "city": "Santa Monica"
+    },
+    {
       "id": 1,
       "name": "Superhero",
       "price": "$21,000",
