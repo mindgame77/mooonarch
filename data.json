@@ -59,7 +59,7 @@
     {
       "id": 3,
       "name": "Creation of Society",
-      "price": "$2,000",
+      "price": "$4,000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "music": "Balaji Srinivasan for Lex Fridman Podcast",
@@ -78,7 +78,7 @@
     {
       "id": 22,
       "name": "on Fire",
-      "price": "2,000",
+      "price": "2,500",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -164,7 +164,7 @@
     {
       "id": 7,
       "name": "Leonardo Mooo Vinci",
-      "price": "♾️",
+      "price": "4000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -175,7 +175,7 @@
       "music": "",
       "number": "37",
       "video": "",
-      "sold": true,
+      "sold": false,
       "city": "Santa Monica, CA"
     },
     {
@@ -199,7 +199,7 @@
     {
       "id": 8,
       "name": "I Believe in you, Bummy",
-      "price": "2,500",
+      "price": "3000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
