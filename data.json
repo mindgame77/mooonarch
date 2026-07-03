@@ -1,6 +1,62 @@
 {
   "paintings": [
     {
+      "id": 29,
+      "name": "Rebuild",
+      "price": "3,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Success isn't the finish line. It's the blank canvas. Rebuild. Fill the gaps with colors you've never used.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103284/IMG_5518_rtwlme.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103283/IMG_5509_f1z4nd.jpg"
+      ],
+      "music": "",
+      "number": "47",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 28,
+      "name": "Act",
+      "price": "3,000",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Perfection is how smart people postpone their lives. ACT is how they finally start.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103279/IMG_5306_drqiz8.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103275/IMG_5304_mopeso.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103278/IMG_5305_adjeek.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103283/IMG_5436_tk5ebw.jpg"
+      ],
+      "music": "",
+      "number": "46",
+      "video": "",
+      "sold": false,
+      "city": ""
+    },
+    {
+      "id": 27,
+      "name": "Manmade",
+      "price": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "Nothing outside can touch you like the story you tell yourself inside. All of it - manmade.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103344/IMG_5156_jwcvcr.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103255/IMG_4443_sxl6fg.jpg"
+      ],
+      "music": "",
+      "number": "43",
+      "video": "",
+      "sold": true,
+      "city": ""
+    },
+    {
       "id": 26,
       "name": "All Gas No Breaks",
       "price": "",
