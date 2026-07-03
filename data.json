@@ -1,6 +1,24 @@
 {
   "paintings": [
     {
+      "id": 25,
+      "name": "I'm F*cking Ready",
+      "price": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103254/IMG_4741_l6ys74.jpg",
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103448/copy_of_img_5255_srbypj.jpg"
+      ],
+      "music": "Ride Like the Wind (2019 Remaster) / Christopher Cross",
+      "number": "41",
+      "video": "",
+      "sold": true,
+      "city": ""
+    },
+    {
       "id": 24,
       "name": "Heracles",
       "price": "♾️",
