@@ -54,7 +54,7 @@
       "number": "43",
       "video": "",
       "sold": true,
-      "city": ""
+      "city": "San Francisco"
     },
     {
       "id": 26,
@@ -71,7 +71,7 @@
       "number": "42",
       "video": "",
       "sold": true,
-      "city": ""
+      "city": "Los Angeles"
     },
     {
       "id": 25,
@@ -89,7 +89,7 @@
       "number": "41",
       "video": "",
       "sold": true,
-      "city": ""
+      "city": "Dubai"
     },
     {
       "id": 24,
