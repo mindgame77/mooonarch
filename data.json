@@ -1,13 +1,30 @@
 {
   "paintings": [
     {
+      "id": 26,
+      "name": "All Gas No Breaks",
+      "price": "",
+      "medium": "Acrylic on linen",
+      "size": "24' × 36'",
+      "year": "2026",
+      "description": "All gas, no brakes isn't chaos. It's the decision to keep moving when the dream is still far and the excuses are loud.",
+      "images": [
+        "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103257/IMG_4965_lx7bpl.jpg"
+      ],
+      "music": "",
+      "number": "42",
+      "video": "",
+      "sold": true,
+      "city": ""
+    },
+    {
       "id": 25,
       "name": "I'm F*cking Ready",
       "price": "",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
-      "description": "",
+      "description": "You spent years getting ready. This is the day you finally believed it.",
       "images": [
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103254/IMG_4741_l6ys74.jpg",
         "https://res.cloudinary.com/dr3pxmced/image/upload/v1783103448/copy_of_img_5255_srbypj.jpg"
