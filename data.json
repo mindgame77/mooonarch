@@ -169,7 +169,7 @@
     {
       "id": 22,
       "name": "on Fire",
-      "price": "2,500",
+      "price": "3,000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -204,7 +204,7 @@
     {
       "id": 4,
       "name": "Initium Novum",
-      "price": "2,000",
+      "price": "2,500",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -238,7 +238,7 @@
     {
       "id": 2,
       "name": "Zero to One",
-      "price": "$2,000",
+      "price": "$2,500",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "music": "",
@@ -272,7 +272,7 @@
     {
       "id": 12,
       "name": "Jean Michel Mooosquiat",
-      "price": "3,000",
+      "price": "4,000",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -379,7 +379,7 @@
     {
       "id": 14,
       "name": "Cartman",
-      "price": "2,000",
+      "price": "2,500",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
