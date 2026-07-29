@@ -21,7 +21,7 @@
     {
       "id": 28,
       "name": "Act",
-      "price": "",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -41,7 +41,7 @@
     {
       "id": 27,
       "name": "Manmade",
-      "price": "",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -59,7 +59,7 @@
     {
       "id": 26,
       "name": "All Gas No Breaks",
-      "price": "",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -76,7 +76,7 @@
     {
       "id": 25,
       "name": "I'm F*cking Ready",
-      "price": "",
+      "price": "♾️",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -150,7 +150,7 @@
     {
       "id": 3,
       "name": "Creation of Society",
-      "price": "$5,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "music": "Balaji Srinivasan for Lex Fridman Podcast",
@@ -169,7 +169,7 @@
     {
       "id": 22,
       "name": "on Fire",
-      "price": "5,000",
+      "price": "$$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -186,7 +186,7 @@
     {
       "id": 23,
       "name": "Angel",
-      "price": "2,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -204,7 +204,7 @@
     {
       "id": 4,
       "name": "Initium Novum",
-      "price": "2,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -238,7 +238,7 @@
     {
       "id": 2,
       "name": "Zero to One",
-      "price": "$2,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "music": "",
@@ -255,7 +255,7 @@
     {
       "id": 7,
       "name": "Leonardo Mooo Vinci",
-      "price": "4,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -272,7 +272,7 @@
     {
       "id": 12,
       "name": "Jean Michel Mooosquiat",
-      "price": "7,000",
+      "price": "$$$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -290,7 +290,7 @@
     {
       "id": 8,
       "name": "I Believe in you, Bummy",
-      "price": "5,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
@@ -379,7 +379,7 @@
     {
       "id": 14,
       "name": "Cartman",
-      "price": "3,000",
+      "price": "$$",
       "medium": "Acrylic on linen",
       "size": "24' × 36'",
       "year": "2026",
